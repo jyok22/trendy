@@ -3,1015 +3,378 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>TRENDY — 지금 뜨는 것들</title>
-<link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Noto+Sans+KR:wght@300;400;500;700;900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<title>TRENDY — 유튜브 급상승 순위</title>
+<link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Noto+Sans+KR:wght@300;400;500;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 <style>
 :root {
-  --bg: #080810; --surface: #10101e; --surface2: #181828; --surface3: #1e1e32;
-  --border: #252540; --accent: #ff3c5f; --accent2: #ffb800; --accent3: #00d4ff;
-  --accent4: #b44fff; --text: #eeeef8; --text-dim: #6060a0; --text-mid: #9090c0;
-  --gold: #ffd700; --silver: #b0b0c8; --bronze: #cd7f32;
-  --up: #00e87a; --down: #ff4466; --new: #ffb800;
+  --bg:#080810; --surface:#10101e; --surface2:#181828; --surface3:#1e1e32;
+  --border:#252540; --yt:#ff0000; --yt2:#ff4444; --accent2:#ffb800;
+  --accent3:#00d4ff; --text:#eeeef8; --text-dim:#6060a0; --text-mid:#9090c0;
+  --gold:#ffd700; --silver:#b0b0c8; --bronze:#cd7f32; --up:#00e87a; --down:#ff4466;
 }
-* { margin:0; padding:0; box-sizing:border-box; }
-html { scroll-behavior:smooth; }
-body { background:var(--bg); color:var(--text); font-family:'Noto Sans KR',sans-serif; min-height:100vh; overflow-x:hidden; }
-body::before {
-  content:''; position:fixed; top:-50%; left:-50%; width:200%; height:200%;
-  background: radial-gradient(ellipse at 20% 20%,rgba(255,60,95,.06) 0%,transparent 50%),
-              radial-gradient(ellipse at 80% 80%,rgba(0,212,255,.05) 0%,transparent 50%),
-              radial-gradient(ellipse at 50% 50%,rgba(180,79,255,.03) 0%,transparent 60%);
-  pointer-events:none; z-index:0; animation:bgshift 20s ease-in-out infinite alternate;
-}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'Noto Sans KR',sans-serif;min-height:100vh;overflow-x:hidden}
+body::before{content:'';position:fixed;top:-50%;left:-50%;width:200%;height:200%;background:radial-gradient(ellipse at 20% 20%,rgba(255,0,0,.05) 0%,transparent 50%),radial-gradient(ellipse at 80% 80%,rgba(255,184,0,.04) 0%,transparent 50%);pointer-events:none;z-index:0;animation:bgshift 20s ease-in-out infinite alternate}
 @keyframes bgshift{0%{transform:translate(0,0)}100%{transform:translate(2%,2%)}}
 
-/* ── HEADER ── */
-header {
-  position:sticky; top:0; z-index:200;
-  background:rgba(8,8,16,.92); backdrop-filter:blur(24px);
-  border-bottom:1px solid var(--border);
-  padding:0 28px; height:58px;
-  display:flex; align-items:center; justify-content:space-between;
-}
-.logo { font-family:'Black Han Sans',sans-serif; font-size:26px; letter-spacing:5px; background:linear-gradient(90deg,var(--accent),var(--accent2),var(--accent3)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
-.logo-sub { font-family:'Space Mono',monospace; font-size:9px; color:var(--text-dim); letter-spacing:1px; }
-.header-right { display:flex; align-items:center; gap:10px; }
-.live-pill { display:flex; align-items:center; gap:6px; font-family:'Space Mono',monospace; font-size:10px; color:var(--accent3); border:1px solid rgba(0,212,255,.25); padding:5px 12px; border-radius:20px; background:rgba(0,212,255,.05); }
-.pulse-dot { width:7px; height:7px; background:var(--accent3); border-radius:50%; animation:pulse 2s infinite; }
+/* HEADER */
+header{position:sticky;top:0;z-index:200;background:rgba(8,8,16,.92);backdrop-filter:blur(24px);border-bottom:1px solid var(--border);padding:0 28px;height:58px;display:flex;align-items:center;justify-content:space-between}
+.logo{font-family:'Black Han Sans',sans-serif;font-size:24px;letter-spacing:4px;background:linear-gradient(90deg,var(--yt),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.logo-sub{font-family:'Space Mono',monospace;font-size:9px;color:var(--text-dim);letter-spacing:1px}
+.live-pill{display:flex;align-items:center;gap:6px;font-family:'Space Mono',monospace;font-size:10px;color:var(--yt);border:1px solid rgba(255,0,0,.25);padding:5px 12px;border-radius:20px;background:rgba(255,0,0,.05)}
+.pulse-dot{width:7px;height:7px;background:var(--yt);border-radius:50%;animation:pulse 2s infinite}
 @keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.3;transform:scale(.6)}}
-.quiz-nav-btn { display:flex; align-items:center; gap:5px; font-family:'Noto Sans KR',sans-serif; font-size:12px; font-weight:700; background:linear-gradient(135deg,var(--accent4),var(--accent)); border:none; border-radius:20px; padding:6px 14px; color:#fff; cursor:pointer; transition:opacity .2s; }
-.quiz-nav-btn:hover { opacity:.85; }
 
-/* ── COUNTRY SELECTOR ── */
-.country-bar {
-  display:flex; align-items:center; gap:0;
-  border-bottom:1px solid var(--border);
-  padding:0 28px; overflow-x:auto; scrollbar-width:none;
-  background:rgba(8,8,16,.6);
-}
+/* HERO */
+.hero{padding:36px 28px 28px;border-bottom:1px solid var(--border);position:relative;z-index:1}
+.hero h1{font-family:'Black Han Sans',sans-serif;font-size:clamp(36px,6vw,68px);line-height:1;letter-spacing:-2px}
+.hero h1 .hl{background:linear-gradient(135deg,var(--yt),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero-sub{margin-top:10px;color:var(--text-dim);font-size:13px}
+.hero-pills{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap}
+.pill{display:inline-flex;align-items:center;gap:4px;font-size:11px;padding:4px 12px;border-radius:20px;font-family:'Space Mono',monospace}
+.pill-red{background:rgba(255,0,0,.08);border:1px solid rgba(255,0,0,.2);color:var(--yt2)}
+.pill-yellow{background:rgba(255,184,0,.08);border:1px solid rgba(255,184,0,.2);color:var(--accent2)}
+.pill-blue{background:rgba(0,212,255,.08);border:1px solid rgba(0,212,255,.2);color:var(--accent3)}
+
+/* COUNTRY BAR */
+.country-bar{display:flex;align-items:center;gap:0;border-bottom:1px solid var(--border);padding:0 28px;overflow-x:auto;scrollbar-width:none;background:rgba(8,8,16,.6)}
 .country-bar::-webkit-scrollbar{display:none}
-.country-bar-label { font-family:'Space Mono',monospace; font-size:10px; color:var(--text-dim); letter-spacing:2px; margin-right:16px; flex-shrink:0; }
-.country-tabs { display:flex; gap:6px; padding:10px 0; }
-.country-tab {
-  display:flex; align-items:center; gap:7px; flex-shrink:0;
-  padding:7px 16px; border-radius:100px;
-  border:1px solid var(--border); background:var(--surface);
-  color:var(--text-dim); cursor:pointer;
-  font-family:'Noto Sans KR',sans-serif; font-size:12px; font-weight:700;
-  transition:all .2s;
-}
-.country-tab:hover { border-color:rgba(255,60,95,.4); color:var(--text); }
-.country-tab.active {
-  border-color:var(--accent2); color:#fff;
-  background:rgba(255,184,0,.12);
-  box-shadow:0 0 16px rgba(255,184,0,.15);
-}
-.country-flag { font-size:18px; line-height:1; }
-.country-name { font-size:12px; }
-.country-tab .cpms { display:none; }
-.country-tab.active .cpms { display:none; }
+.country-bar-label{font-family:'Space Mono',monospace;font-size:10px;color:var(--text-dim);letter-spacing:2px;margin-right:16px;flex-shrink:0}
+.country-tabs{display:flex;gap:6px;padding:10px 0}
+.country-tab{display:flex;align-items:center;gap:7px;flex-shrink:0;padding:7px 16px;border-radius:100px;border:1px solid var(--border);background:var(--surface);color:var(--text-dim);cursor:pointer;font-family:'Noto Sans KR',sans-serif;font-size:12px;font-weight:700;transition:all .2s}
+.country-tab:hover{border-color:rgba(255,0,0,.4);color:var(--text)}
+.country-tab.active{border-color:var(--yt);background:rgba(255,0,0,.1);color:#fff}
+.country-flag{font-size:18px;line-height:1}
 
-/* ── HERO ── */
-.hero { position:relative; z-index:1; padding:36px 28px 24px; border-bottom:1px solid var(--border); }
-.hero-top { display:flex; align-items:flex-start; justify-content:space-between; gap:20px; }
-.hero h1 { font-family:'Black Han Sans',sans-serif; font-size:clamp(38px,7vw,72px); line-height:1.0; letter-spacing:-2px; }
-.hero h1 .hl { background:linear-gradient(135deg,var(--accent) 0%,var(--accent2) 100%); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
-.hero-right { flex-shrink:0; display:flex; flex-direction:column; align-items:flex-end; gap:8px; }
-.date-chip { font-family:'Space Mono',monospace; font-size:11px; color:var(--text-mid); background:var(--surface); border:1px solid var(--border); padding:6px 14px; border-radius:20px; }
-.country-active-badge {
-  display:flex; align-items:center; gap:6px;
-  padding:6px 14px; border-radius:20px;
-  border:1px solid rgba(255,184,0,.3); background:rgba(255,184,0,.07);
-  font-size:13px; font-weight:700; color:var(--accent2);
-}
-.hero-desc { margin-top:10px; color:var(--text-dim); font-size:13px; }
-.hero-pills { display:flex; gap:8px; margin-top:14px; flex-wrap:wrap; }
-.pill { display:inline-flex; align-items:center; gap:4px; font-size:11px; padding:4px 12px; border-radius:20px; font-family:'Space Mono',monospace; }
-.pill-blue { background:rgba(0,212,255,.08); border:1px solid rgba(0,212,255,.2); color:var(--accent3); }
-.pill-pink { background:rgba(255,60,95,.08); border:1px solid rgba(255,60,95,.2); color:var(--accent); }
-.pill-yellow { background:rgba(255,184,0,.08); border:1px solid rgba(255,184,0,.2); color:var(--accent2); }
+/* CATEGORY TABS */
+.cat-bar{display:flex;align-items:center;gap:0;border-bottom:1px solid var(--border);padding:0 28px;overflow-x:auto;scrollbar-width:none}
+.cat-bar::-webkit-scrollbar{display:none}
+.cat-bar-label{font-family:'Space Mono',monospace;font-size:10px;color:var(--text-dim);letter-spacing:2px;margin-right:16px;flex-shrink:0}
+.cat-tabs{display:flex;gap:6px;padding:10px 0}
+.cat-tab{flex-shrink:0;padding:6px 14px;border-radius:100px;border:1px solid var(--border);background:var(--surface);color:var(--text-dim);cursor:pointer;font-size:12px;font-weight:500;font-family:'Noto Sans KR',sans-serif;transition:all .2s}
+.cat-tab:hover{border-color:rgba(255,0,0,.4);color:var(--text)}
+.cat-tab.active{border-color:var(--yt);background:rgba(255,0,0,.1);color:#fff}
 
-/* ── STATS ── */
-.stats-bar { display:flex; border-bottom:1px solid var(--border); overflow-x:auto; scrollbar-width:none; }
+/* STATS */
+.stats-bar{display:flex;border-bottom:1px solid var(--border);overflow-x:auto;scrollbar-width:none}
 .stats-bar::-webkit-scrollbar{display:none}
-.stat-item { flex-shrink:0; padding:14px 28px; border-right:1px solid var(--border); text-align:center; }
-.stat-val { font-family:'Black Han Sans',sans-serif; font-size:22px; background:linear-gradient(135deg,var(--accent),var(--accent2)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
-.stat-label { font-family:'Space Mono',monospace; font-size:9px; color:var(--text-dim); margin-top:2px; letter-spacing:1px; }
+.stat-item{flex-shrink:0;padding:14px 28px;border-right:1px solid var(--border);text-align:center}
+.stat-val{font-family:'Black Han Sans',sans-serif;font-size:22px;background:linear-gradient(135deg,var(--yt),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.stat-label{font-family:'Space Mono',monospace;font-size:9px;color:var(--text-dim);margin-top:2px;letter-spacing:1px}
 
-/* ── CATEGORIES ── */
-.cat-section { padding:20px 28px 0; position:relative; z-index:1; }
-.section-label { font-family:'Space Mono',monospace; font-size:10px; color:var(--text-dim); letter-spacing:3px; margin-bottom:12px; display:flex; align-items:center; gap:8px; }
-.section-label::after { content:''; flex:1; height:1px; background:var(--border); }
-.cat-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(90px,1fr)); gap:8px; }
-.cat-btn { display:flex; flex-direction:column; align-items:center; justify-content:center; gap:5px; padding:14px 8px; border-radius:16px; border:1px solid var(--border); background:var(--surface); color:var(--text-dim); cursor:pointer; font-family:'Noto Sans KR',sans-serif; font-size:11px; font-weight:700; transition:all .2s; position:relative; overflow:hidden; }
-.cat-btn::before { content:''; position:absolute; inset:0; background:linear-gradient(135deg,rgba(255,60,95,.1),rgba(255,184,0,.05)); opacity:0; transition:opacity .2s; }
-.cat-btn:hover { border-color:rgba(255,60,95,.4); color:var(--text); transform:translateY(-2px); }
-.cat-btn:hover::before { opacity:1; }
-.cat-btn.active { border-color:var(--accent); color:var(--text); background:rgba(255,60,95,.1); box-shadow:0 0 20px rgba(255,60,95,.15); }
-.cat-btn.active::before { opacity:1; }
-.cat-emoji { font-size:24px; line-height:1; transition:transform .2s; }
-.cat-btn:hover .cat-emoji,.cat-btn.active .cat-emoji { transform:scale(1.15); }
-
-/* ── MAIN LAYOUT ── */
-.main { display:grid; grid-template-columns:1fr 300px; gap:0; position:relative; z-index:1; }
-
-/* ── RANK PANEL ── */
-.rank-panel { padding:24px 28px 60px; border-right:1px solid var(--border); }
-.rank-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:16px; }
-.rank-title-wrap { display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
-.rank-title { font-family:'Black Han Sans',sans-serif; font-size:20px; }
-.rank-time { font-family:'Space Mono',monospace; font-size:10px; color:var(--accent3); background:rgba(0,212,255,.08); border:1px solid rgba(0,212,255,.2); padding:3px 10px; border-radius:20px; display:none; }
-.rank-time.on { display:inline-block; }
-.refresh-btn { display:flex; align-items:center; gap:5px; padding:7px 14px; border:1px solid var(--border); border-radius:20px; background:transparent; color:var(--text-dim); cursor:pointer; font-size:12px; font-family:'Space Mono',monospace; transition:all .2s; flex-shrink:0; }
-.refresh-btn:hover { border-color:var(--accent3); color:var(--accent3); }
-.refresh-btn.loading { pointer-events:none; opacity:.5; }
-.refresh-btn.loading .ricon { animation:spin 1s linear infinite; }
+/* CONTROLS */
+.controls{display:flex;align-items:center;justify-content:space-between;padding:16px 28px;border-bottom:1px solid var(--border)}
+.section-title{font-family:'Black Han Sans',sans-serif;font-size:18px;display:flex;align-items:center;gap:8px}
+.update-badge{font-family:'Space Mono',monospace;font-size:10px;color:var(--text-dim);background:var(--surface);border:1px solid var(--border);padding:4px 12px;border-radius:20px}
+.refresh-btn{display:flex;align-items:center;gap:5px;padding:7px 16px;border:1px solid var(--border);border-radius:20px;background:transparent;color:var(--text-dim);cursor:pointer;font-size:12px;font-family:'Space Mono',monospace;transition:all .2s}
+.refresh-btn:hover{border-color:var(--yt);color:var(--yt)}
+.refresh-btn.loading{pointer-events:none;opacity:.5}
+.refresh-btn.loading svg{animation:spin 1s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
-.status-bar { display:none; align-items:center; gap:8px; padding:10px 16px; background:rgba(0,212,255,.05); border:1px solid rgba(0,212,255,.12); border-radius:10px; margin-bottom:14px; font-size:12px; color:var(--accent3); font-family:'Space Mono',monospace; }
-.status-bar.on { display:flex; }
-.status-spin { width:12px; height:12px; border:2px solid rgba(0,212,255,.2); border-top-color:var(--accent3); border-radius:50%; animation:spin .8s linear infinite; flex-shrink:0; }
 
-/* ── RANK ITEMS ── */
-.rank-list { display:flex; flex-direction:column; gap:10px; }
-.rank-item { border-radius:16px; border:1px solid var(--border); background:var(--surface); overflow:hidden; transition:all .25s; animation:itemIn .4s ease forwards; opacity:0; }
-.rank-item:hover { border-color:rgba(255,60,95,.35); background:var(--surface2); transform:translateX(4px); box-shadow:0 4px 24px rgba(0,0,0,.3); }
+/* STATUS */
+.status-bar{display:none;align-items:center;gap:8px;padding:12px 28px;background:rgba(255,0,0,.04);border-bottom:1px solid rgba(255,0,0,.1);font-size:12px;color:var(--yt2);font-family:'Space Mono',monospace}
+.status-bar.on{display:flex}
+.status-spin{width:12px;height:12px;border:2px solid rgba(255,0,0,.2);border-top-color:var(--yt);border-radius:50%;animation:spin .8s linear infinite;flex-shrink:0}
+
+/* VIDEO LIST */
+.video-section{padding:20px 28px 60px;position:relative;z-index:1}
+.video-list{display:flex;flex-direction:column;gap:10px}
+
+/* VIDEO CARD */
+.yt-card{display:grid;grid-template-columns:52px 160px 1fr auto;align-items:center;gap:14px;background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:12px 16px;transition:all .25s;cursor:pointer;animation:itemIn .4s ease forwards;opacity:0}
+.yt-card:hover{border-color:rgba(255,0,0,.35);background:var(--surface2);transform:translateX(4px);box-shadow:0 4px 20px rgba(0,0,0,.3)}
 @keyframes itemIn{from{opacity:0;transform:translateX(-20px)}to{opacity:1;transform:translateX(0)}}
-.rank-item:nth-child(1){animation-delay:.04s}.rank-item:nth-child(2){animation-delay:.08s}.rank-item:nth-child(3){animation-delay:.12s}.rank-item:nth-child(4){animation-delay:.16s}.rank-item:nth-child(5){animation-delay:.20s}.rank-item:nth-child(6){animation-delay:.24s}.rank-item:nth-child(7){animation-delay:.28s}.rank-item:nth-child(8){animation-delay:.32s}
-.rank-item.r1{border-color:rgba(255,215,0,.25);background:rgba(255,215,0,.03)}
-.rank-item.r2{border-color:rgba(192,192,200,.2)}
-.rank-item.r3{border-color:rgba(205,127,50,.2)}
-.item-main { display:grid; grid-template-columns:58px 1fr auto; align-items:center; gap:14px; padding:16px 18px; }
-.item-num { font-family:'Space Mono',monospace; font-size:22px; font-weight:700; text-align:center; line-height:1; }
-.r1 .item-num{color:var(--gold);text-shadow:0 0 20px rgba(255,215,0,.5)}
-.r2 .item-num{color:var(--silver)} .r3 .item-num{color:var(--bronze)}
-.medal{font-size:26px}
-.item-info{min-width:0}
-.item-name-row{display:flex;align-items:center;gap:8px;margin-bottom:4px}
-.item-name{font-weight:700;font-size:15px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.change{flex-shrink:0;font-family:'Space Mono',monospace;font-size:10px;padding:2px 6px;border-radius:6px;font-weight:700}
-.change.up{background:rgba(0,232,122,.12);color:var(--up)}
-.change.down{background:rgba(255,68,102,.12);color:var(--down)}
-.change.new{background:rgba(255,184,0,.12);color:var(--new)}
-.change.same{background:rgba(100,100,160,.1);color:var(--text-dim)}
-.item-desc{color:var(--text-dim);font-size:12px;line-height:1.45;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
-.item-heat{flex-shrink:0}
-.heat-ring{position:relative;width:44px;height:44px}
-.heat-ring svg{transform:rotate(-90deg)}
-.heat-ring .track{fill:none;stroke:var(--border);stroke-width:3}
-.heat-ring .prog{fill:none;stroke-width:3;stroke-linecap:round;stroke-dasharray:113}
-.heat-center{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:'Space Mono',monospace;font-size:9px;font-weight:700}
-.item-reactions{display:flex;align-items:center;gap:6px;padding:10px 18px 12px 76px;border-top:1px solid rgba(255,255,255,.04)}
-.react-btn{display:flex;align-items:center;gap:5px;padding:5px 12px;border-radius:20px;border:1px solid var(--border);background:transparent;color:var(--text-dim);cursor:pointer;font-size:12px;font-family:'Noto Sans KR',sans-serif;font-weight:500;transition:all .2s;user-select:none}
-.react-btn:hover{border-color:rgba(255,60,95,.4);color:var(--text)}
-.react-btn.voted{background:rgba(255,60,95,.1);border-color:var(--accent);color:var(--accent)}
-.react-btn.voted2{background:rgba(0,212,255,.1);border-color:var(--accent3);color:var(--accent3)}
-.react-count{font-family:'Space Mono',monospace;font-size:11px}
-.share-btn{margin-left:auto;display:flex;align-items:center;gap:5px;padding:5px 12px;border-radius:20px;border:1px solid var(--border);background:transparent;color:var(--text-dim);cursor:pointer;font-size:12px;font-family:'Space Mono',monospace;transition:all .2s}
-.share-btn:hover{border-color:rgba(255,184,0,.4);color:var(--accent2)}
+.yt-card:nth-child(1){animation-delay:.04s}.yt-card:nth-child(2){animation-delay:.08s}.yt-card:nth-child(3){animation-delay:.12s}.yt-card:nth-child(4){animation-delay:.16s}.yt-card:nth-child(5){animation-delay:.20s}.yt-card:nth-child(6){animation-delay:.24s}.yt-card:nth-child(7){animation-delay:.28s}.yt-card:nth-child(8){animation-delay:.32s}.yt-card:nth-child(9){animation-delay:.36s}.yt-card:nth-child(10){animation-delay:.40s}.yt-card:nth-child(11){animation-delay:.44s}.yt-card:nth-child(12){animation-delay:.48s}.yt-card:nth-child(13){animation-delay:.52s}.yt-card:nth-child(14){animation-delay:.56s}.yt-card:nth-child(15){animation-delay:.60s}.yt-card:nth-child(16){animation-delay:.64s}.yt-card:nth-child(17){animation-delay:.68s}.yt-card:nth-child(18){animation-delay:.72s}.yt-card:nth-child(19){animation-delay:.76s}.yt-card:nth-child(20){animation-delay:.80s}
+.yt-card.r1{border-color:rgba(255,215,0,.25);background:rgba(255,215,0,.02)}
+.yt-card.r2{border-color:rgba(192,192,200,.15)}.yt-card.r3{border-color:rgba(205,127,50,.15)}
+.yt-rank{text-align:center}
+.yt-rank-num{font-family:'Space Mono',monospace;font-size:20px;font-weight:700;line-height:1}
+.yt-card.r1 .yt-rank-num{color:var(--gold);text-shadow:0 0 16px rgba(255,215,0,.5)}
+.yt-card.r2 .yt-rank-num{color:var(--silver)}.yt-card.r3 .yt-rank-num{color:var(--bronze)}
+.yt-medal{font-size:24px}
+.yt-thumb-wrap{position:relative;border-radius:8px;overflow:hidden;flex-shrink:0}
+.yt-thumb{width:160px;height:90px;object-fit:cover;display:block;background:var(--surface2)}
+.yt-duration{position:absolute;bottom:4px;right:4px;background:rgba(0,0,0,.85);color:#fff;font-family:'Space Mono',monospace;font-size:10px;padding:2px 5px;border-radius:4px}
+.yt-thumb-ph{width:160px;height:90px;background:linear-gradient(135deg,var(--surface2),var(--surface3));border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:28px;flex-shrink:0}
+.yt-info{min-width:0}
+.yt-title{font-weight:700;font-size:13px;line-height:1.4;margin-bottom:5px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.yt-channel{font-size:11px;color:var(--text-dim);margin-bottom:5px}
+.yt-badge{font-family:'Space Mono',monospace;font-size:10px;padding:2px 8px;border-radius:8px;background:rgba(255,0,0,.08);border:1px solid rgba(255,0,0,.15);color:var(--yt2)}
+.yt-vstats{flex-shrink:0;display:flex;flex-direction:column;align-items:flex-end;gap:5px;min-width:90px}
+.yt-views{font-family:'Space Mono',monospace;font-size:13px;font-weight:700}
+.yt-views-label{font-family:'Space Mono',monospace;font-size:9px;color:var(--text-dim)}
+.yt-likes{font-size:11px;color:var(--up);font-family:'Space Mono',monospace}
+.yt-spike{display:flex;align-items:center;gap:4px;font-family:'Space Mono',monospace;font-size:10px;padding:2px 8px;border-radius:8px;background:rgba(255,0,0,.1);border:1px solid rgba(255,0,0,.2);color:var(--yt2)}
 
-/* Skeleton */
-.skel{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:16px 18px;display:grid;grid-template-columns:58px 1fr 44px;gap:14px;align-items:center;margin-bottom:10px}
+/* SKELETON */
+.skel{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:12px 16px;display:grid;grid-template-columns:52px 160px 1fr 90px;gap:14px;align-items:center;margin-bottom:10px}
 .sk{background:var(--border);border-radius:6px;animation:shim 1.5s infinite}
 @keyframes shim{0%,100%{opacity:.3}50%{opacity:.7}}
-.empty-state{text-align:center;padding:60px 0;color:var(--text-dim)}
-.empty-state .big{font-size:48px;margin-bottom:12px}
-.err-box{background:rgba(255,60,95,.06);border:1px solid rgba(255,60,95,.2);border-radius:14px;padding:28px;text-align:center;color:var(--text-dim)}
-
-/* ── SIDEBAR ── */
-.sidebar{padding:24px 20px 60px;display:flex;flex-direction:column;gap:20px}
-.side-card{background:var(--surface);border:1px solid var(--border);border-radius:16px;overflow:hidden}
-.side-card-header{padding:14px 16px;border-bottom:1px solid var(--border);font-family:'Black Han Sans',sans-serif;font-size:14px;display:flex;align-items:center;gap:6px}
-.share-card-body{padding:16px;display:flex;flex-direction:column;gap:8px}
-.share-option{display:flex;align-items:center;gap:10px;padding:10px 14px;border-radius:12px;border:1px solid var(--border);background:var(--surface2);cursor:pointer;font-size:13px;font-weight:500;transition:all .2s}
-.share-option:hover{border-color:var(--accent);color:var(--accent)}
-.so-icon{font-size:18px}
-.share-toast{display:none;margin-top:4px;text-align:center;font-size:12px;color:var(--up);font-family:'Space Mono',monospace}
-.share-toast.on{display:block;animation:fadeInOut 2.2s ease forwards}
-@keyframes fadeInOut{0%{opacity:0}15%{opacity:1}80%{opacity:1}100%{opacity:0}}
-.hot-list{padding:8px 0}
-.hot-item{display:flex;align-items:center;gap:10px;padding:8px 16px;transition:background .2s;cursor:pointer}
-.hot-item:hover{background:var(--surface2)}
-.hot-rank{font-family:'Space Mono',monospace;font-size:11px;color:var(--text-dim);width:20px;flex-shrink:0}
-.hot-name{font-size:13px;font-weight:500;flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.hot-cat{font-size:10px;color:var(--text-dim);background:var(--surface3);padding:2px 7px;border-radius:8px;flex-shrink:0}
-.quiz-mini{padding:16px}
-.quiz-q{font-size:13px;font-weight:700;line-height:1.5;margin-bottom:12px;color:var(--text-mid)}
-.quiz-opts{display:flex;flex-direction:column;gap:6px}
-.quiz-opt{padding:8px 12px;border-radius:10px;border:1px solid var(--border);background:var(--surface2);cursor:pointer;font-size:12px;transition:all .2s;text-align:left;font-family:'Noto Sans KR',sans-serif}
-.quiz-opt:hover:not(:disabled){border-color:var(--accent4);color:var(--accent4)}
-.quiz-opt.correct{border-color:var(--up)!important;background:rgba(0,232,122,.08)!important;color:var(--up)!important}
-.quiz-opt.wrong{border-color:var(--down)!important;background:rgba(255,68,102,.08)!important;color:var(--down)!important}
-.quiz-result{margin-top:10px;font-size:12px;color:var(--text-dim);display:none}
-.quiz-result.on{display:block}
-.quiz-next{margin-top:10px;width:100%;padding:8px;border-radius:10px;border:1px solid var(--accent4);background:rgba(180,79,255,.08);color:var(--accent4);cursor:pointer;font-size:12px;font-family:'Noto Sans KR',sans-serif;font-weight:700;display:none;transition:all .2s}
-.quiz-next:hover{background:rgba(180,79,255,.18)}
-.quiz-next.on{display:block}
-.quiz-score{font-family:'Space Mono',monospace;font-size:10px;color:var(--text-dim);margin-top:8px;text-align:right}
-
-/* ── COUNTRY CARD (sidebar) ── */
-.country-card-body { padding:12px; display:grid; grid-template-columns:1fr 1fr; gap:8px; }
-.country-mini-btn {
-  display:flex; flex-direction:column; align-items:center; gap:4px;
-  padding:10px 6px; border-radius:12px;
-  border:1px solid var(--border); background:var(--surface2);
-  cursor:pointer; font-size:11px; font-weight:700;
-  color:var(--text-dim); transition:all .2s;
-}
-.country-mini-btn:hover { border-color:rgba(255,184,0,.4); color:var(--text); }
-.country-mini-btn.active { border-color:var(--accent2); background:rgba(255,184,0,.1); color:var(--accent2); }
-.country-mini-btn .cmflag { font-size:22px; }
-.country-mini-btn .cmcpm { display:none; }
-
-.cat-btn.yt-special { border-color:rgba(255,0,0,.3); }
-.cat-btn.yt-special:hover { border-color:#ff0000; }
-.cat-btn.yt-special.active { border-color:#ff0000; background:rgba(255,0,0,.12); box-shadow:0 0 20px rgba(255,0,0,.15); }
-
-/* ── YOUTUBE PANEL ── */
-.yt-panel { display:none; padding:24px 28px 60px; }
-.yt-panel.on { display:block; }
-.yt-api-setup { padding:24px; background:var(--surface); border:1px solid rgba(255,0,0,.2); border-radius:20px; margin-bottom:20px; }
-.yt-setup-title { font-family:'Black Han Sans',sans-serif; font-size:16px; margin-bottom:8px; display:flex; align-items:center; gap:8px; }
-.yt-setup-desc { font-size:12px; color:var(--text-dim); line-height:1.7; margin-bottom:16px; }
-.yt-steps { display:flex; flex-direction:column; gap:8px; margin-bottom:16px; }
-.yt-step { display:flex; align-items:flex-start; gap:10px; }
-.yt-step-num { flex-shrink:0; width:22px; height:22px; background:rgba(255,0,0,.15); border:1px solid rgba(255,0,0,.3); border-radius:50%; display:flex; align-items:center; justify-content:center; font-family:'Space Mono',monospace; font-size:10px; color:#ff4444; font-weight:700; margin-top:2px; }
-.yt-step-text { font-size:12px; line-height:1.6; color:var(--text-mid); }
-.yt-step-text a { color:var(--accent3); text-decoration:none; }
-.yt-step-text a:hover { text-decoration:underline; }
-.yt-step-text code { background:var(--surface2); border:1px solid var(--border); padding:1px 6px; border-radius:5px; font-family:'Space Mono',monospace; font-size:10px; color:var(--accent2); }
-.yt-input-row { display:flex; gap:8px; }
-.yt-input { flex:1; padding:10px 14px; background:var(--surface2); border:1px solid var(--border); border-radius:10px; color:var(--text); font-size:12px; font-family:'Space Mono',monospace; outline:none; transition:border-color .2s; }
-.yt-input:focus { border-color:#ff0000; }
-.yt-input::placeholder { color:var(--text-dim); }
-.yt-submit { padding:10px 18px; background:#ff0000; border:none; border-radius:10px; color:#fff; font-size:12px; font-weight:700; font-family:'Noto Sans KR',sans-serif; cursor:pointer; flex-shrink:0; transition:opacity .2s; }
-.yt-submit:hover { opacity:.85; }
-.yt-api-error { margin-top:8px; font-size:11px; color:var(--down); display:none; }
-.yt-api-error.on { display:block; }
-
-.yt-controls { display:flex; align-items:center; gap:10px; flex-wrap:wrap; margin-bottom:20px; }
-.yt-region-tabs,.yt-cat-tabs { display:flex; gap:6px; overflow-x:auto; scrollbar-width:none; }
-.yt-region-tabs::-webkit-scrollbar,.yt-cat-tabs::-webkit-scrollbar { display:none; }
-.yt-tab { flex-shrink:0; padding:6px 14px; border-radius:100px; border:1px solid var(--border); background:var(--surface); color:var(--text-dim); cursor:pointer; font-size:12px; font-weight:700; font-family:'Noto Sans KR',sans-serif; transition:all .2s; }
-.yt-tab:hover { border-color:rgba(255,0,0,.4); color:var(--text); }
-.yt-tab.active { border-color:#ff0000; background:rgba(255,0,0,.1); color:#fff; }
-.yt-refresh-btn { margin-left:auto; display:flex; align-items:center; gap:5px; padding:6px 14px; border:1px solid var(--border); border-radius:20px; background:transparent; color:var(--text-dim); cursor:pointer; font-size:12px; font-family:'Space Mono',monospace; transition:all .2s; flex-shrink:0; }
-.yt-refresh-btn:hover { border-color:#ff0000; color:#ff4444; }
-.yt-refresh-btn.loading { pointer-events:none; opacity:.5; }
-.yt-refresh-btn.loading svg { animation:spin 1s linear infinite; }
-.yt-change-key { font-family:'Space Mono',monospace; font-size:10px; color:var(--text-dim); background:none; border:1px solid var(--border); padding:4px 10px; border-radius:10px; cursor:pointer; transition:all .2s; }
-.yt-change-key:hover { border-color:#ff0000; color:#ff4444; }
-
-.yt-stats { display:flex; gap:0; border:1px solid var(--border); border-radius:14px; overflow:hidden; margin-bottom:20px; }
-.yt-stat { flex:1; padding:12px; text-align:center; border-right:1px solid var(--border); }
-.yt-stat:last-child { border-right:none; }
-.yt-stat-val { font-family:'Black Han Sans',sans-serif; font-size:18px; background:linear-gradient(135deg,#ff0000,var(--accent2)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
-.yt-stat-label { font-family:'Space Mono',monospace; font-size:9px; color:var(--text-dim); margin-top:2px; }
-
-.yt-video-list { display:flex; flex-direction:column; gap:10px; }
-.yt-card {
-  display:grid; grid-template-columns:52px 160px 1fr auto;
-  align-items:center; gap:14px;
-  background:var(--surface); border:1px solid var(--border); border-radius:16px;
-  padding:12px 16px; transition:all .25s; cursor:pointer;
-  animation:itemIn .4s ease forwards; opacity:0;
-}
-.yt-card:hover { border-color:rgba(255,0,0,.35); background:var(--surface2); transform:translateX(4px); box-shadow:0 4px 20px rgba(0,0,0,.3); }
-.yt-card:nth-child(1){animation-delay:.04s}.yt-card:nth-child(2){animation-delay:.08s}.yt-card:nth-child(3){animation-delay:.12s}.yt-card:nth-child(4){animation-delay:.16s}.yt-card:nth-child(5){animation-delay:.20s}.yt-card:nth-child(6){animation-delay:.24s}.yt-card:nth-child(7){animation-delay:.28s}.yt-card:nth-child(8){animation-delay:.32s}.yt-card:nth-child(9){animation-delay:.36s}.yt-card:nth-child(10){animation-delay:.40s}
-.yt-card.r1{border-color:rgba(255,215,0,.25);background:rgba(255,215,0,.02)}
-.yt-card.r2{border-color:rgba(192,192,200,.15)} .yt-card.r3{border-color:rgba(205,127,50,.15)}
-.yt-rank { text-align:center; }
-.yt-rank-num { font-family:'Space Mono',monospace; font-size:20px; font-weight:700; line-height:1; }
-.yt-card.r1 .yt-rank-num{color:var(--gold);text-shadow:0 0 16px rgba(255,215,0,.5)}
-.yt-card.r2 .yt-rank-num{color:var(--silver)} .yt-card.r3 .yt-rank-num{color:var(--bronze)}
-.yt-medal{font-size:24px}
-.yt-thumb-wrap { position:relative; border-radius:8px; overflow:hidden; flex-shrink:0; }
-.yt-thumb { width:160px; height:90px; object-fit:cover; display:block; background:var(--surface2); }
-.yt-duration { position:absolute; bottom:4px; right:4px; background:rgba(0,0,0,.85); color:#fff; font-family:'Space Mono',monospace; font-size:10px; padding:2px 5px; border-radius:4px; }
-.yt-thumb-ph { width:160px; height:90px; background:linear-gradient(135deg,var(--surface2),var(--surface3)); border-radius:8px; display:flex; align-items:center; justify-content:center; font-size:28px; flex-shrink:0; }
-.yt-info { min-width:0; }
-.yt-title { font-weight:700; font-size:13px; line-height:1.4; margin-bottom:5px; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
-.yt-channel { font-size:11px; color:var(--text-dim); margin-bottom:6px; }
-.yt-meta-row { display:flex; align-items:center; gap:6px; }
-.yt-badge { font-family:'Space Mono',monospace; font-size:10px; padding:2px 8px; border-radius:8px; background:rgba(255,0,0,.08); border:1px solid rgba(255,0,0,.15); color:#ff4444; }
-.yt-vstats { flex-shrink:0; display:flex; flex-direction:column; align-items:flex-end; gap:5px; min-width:90px; }
-.yt-views { font-family:'Space Mono',monospace; font-size:13px; font-weight:700; }
-.yt-views-label { font-family:'Space Mono',monospace; font-size:9px; color:var(--text-dim); }
-.yt-likes { font-size:11px; color:var(--up); font-family:'Space Mono',monospace; }
-.yt-spike { display:flex; align-items:center; gap:4px; font-family:'Space Mono',monospace; font-size:10px; padding:2px 8px; border-radius:8px; background:rgba(255,0,0,.1); border:1px solid rgba(255,0,0,.2); color:#ff4444; }
-
-/* ── MODAL ── */
-.modal-overlay{position:fixed;inset:0;z-index:1000;background:rgba(0,0,0,.85);backdrop-filter:blur(8px);display:none;align-items:center;justify-content:center;padding:20px}
-.modal-overlay.on{display:flex}
-.modal{background:var(--surface);border:1px solid var(--border);border-radius:24px;width:100%;max-width:480px;animation:modalIn .3s ease}
-@keyframes modalIn{from{opacity:0;transform:scale(.92)}to{opacity:1;transform:scale(1)}}
-.modal-header{padding:20px 24px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
-.modal-title{font-family:'Black Han Sans',sans-serif;font-size:20px;background:linear-gradient(135deg,var(--accent4),var(--accent));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-.modal-close{background:none;border:none;color:var(--text-dim);cursor:pointer;font-size:20px;transition:color .2s}
-.modal-close:hover{color:var(--text)}
-.modal-body{padding:24px}
-.mq-progress{display:flex;gap:4px;margin-bottom:20px}
-.mq-prog-bar{flex:1;height:4px;background:var(--border);border-radius:2px;transition:background .3s}
-.mq-prog-bar.done{background:var(--accent4)} .mq-prog-bar.current{background:var(--accent)}
-.mq-num{font-family:'Space Mono',monospace;font-size:11px;color:var(--text-dim);margin-bottom:8px}
-.mq-question{font-size:15px;font-weight:700;line-height:1.6;margin-bottom:20px}
-.mq-options{display:flex;flex-direction:column;gap:8px}
-.mq-opt{padding:12px 16px;border-radius:12px;border:1px solid var(--border);background:var(--surface2);cursor:pointer;font-size:14px;font-weight:500;transition:all .2s;text-align:left;font-family:'Noto Sans KR',sans-serif}
-.mq-opt:hover:not(:disabled){border-color:var(--accent4);color:var(--accent4)}
-.mq-opt.correct{border-color:var(--up)!important;background:rgba(0,232,122,.08)!important;color:var(--up)!important}
-.mq-opt.wrong{border-color:var(--down)!important;background:rgba(255,68,102,.08)!important;color:var(--down)!important}
-.mq-opt:disabled{cursor:default}
-.mq-feedback{margin-top:14px;padding:12px 16px;border-radius:12px;background:var(--surface3);font-size:13px;color:var(--text-mid);display:none;line-height:1.6}
-.mq-feedback.on{display:block}
-.mq-next{margin-top:14px;width:100%;padding:12px;border-radius:14px;border:none;background:linear-gradient(135deg,var(--accent4),var(--accent));color:#fff;cursor:pointer;font-size:14px;font-weight:700;font-family:'Noto Sans KR',sans-serif;display:none;transition:opacity .2s}
-.mq-next:hover{opacity:.88} .mq-next.on{display:block}
-.mq-result{text-align:center;padding:10px 0}
-.mq-result-score{font-family:'Black Han Sans',sans-serif;font-size:64px;background:linear-gradient(135deg,var(--accent4),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1}
-.mq-result-msg{font-size:16px;font-weight:700;margin:10px 0 6px}
-.mq-result-sub{font-size:13px;color:var(--text-dim)}
-.mq-restart{margin-top:20px;width:100%;padding:14px;border-radius:14px;border:none;background:linear-gradient(135deg,var(--accent4),var(--accent));color:#fff;cursor:pointer;font-size:14px;font-weight:700;font-family:'Noto Sans KR',sans-serif}
+.err-box{background:rgba(255,0,0,.05);border:1px solid rgba(255,0,0,.2);border-radius:14px;padding:28px;text-align:center;color:var(--text-dim)}
 
 .toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--surface2);border:1px solid var(--border);padding:12px 24px;border-radius:30px;font-size:13px;font-weight:500;z-index:2000;transition:transform .3s ease;white-space:nowrap;box-shadow:0 8px 32px rgba(0,0,0,.4)}
 .toast.show{transform:translateX(-50%) translateY(0)}
 
-@media(max-width:900px){.main{grid-template-columns:1fr}.sidebar{display:none}}
-@media(max-width:600px){
+@media(max-width:768px){
   header{padding:0 16px}
-  .hero,.cat-section,.rank-panel{padding-left:16px;padding-right:16px}
-  .country-bar{padding:0 16px}
-  .cat-grid{grid-template-columns:repeat(auto-fill,minmax(72px,1fr));gap:6px}
-  .item-main{grid-template-columns:48px 1fr}
-  .item-heat{display:none}
-  .stat-item{padding:12px 18px}
+  .hero,.controls,.video-section{padding-left:16px;padding-right:16px}
+  .country-bar,.cat-bar{padding-left:16px;padding-right:16px}
+  .yt-card{grid-template-columns:40px 1fr}
+  .yt-thumb-wrap,.yt-thumb-ph,.yt-vstats{display:none}
+  .stat-item{padding:12px 16px}
 }
 </style>
 </head>
 <body>
 
-<!-- HEADER -->
 <header>
   <div>
     <div class="logo">TRENDY</div>
-    <div class="logo-sub">실시간 글로벌 트렌드 랭킹</div>
+    <div class="logo-sub">유튜브 급상승 실시간 순위</div>
   </div>
-  <div class="header-right">
-    <button class="quiz-nav-btn" onclick="openQuiz()">🎮 퀴즈 도전</button>
-    <div class="live-pill"><div class="pulse-dot"></div>LIVE</div>
-  </div>
+  <div class="live-pill"><div class="pulse-dot"></div>LIVE</div>
 </header>
 
-<!-- COUNTRY SELECTOR BAR -->
+<div class="hero">
+  <h1>유튜브 <span class="hl">급상승</span><br>동영상 순위</h1>
+  <p class="hero-sub">YouTube Data API 기반 실시간 급상승 동영상 랭킹 📊</p>
+  <div class="hero-pills">
+    <span class="pill pill-red">▶ 실제 유튜브 데이터</span>
+    <span class="pill pill-yellow">🔥 조회수 급등 순위</span>
+    <span class="pill pill-blue">🌍 8개국 제공</span>
+  </div>
+</div>
+
+<!-- 국가 선택 -->
 <div class="country-bar">
-  <span class="country-bar-label">🌍 COUNTRY</span>
+  <span class="country-bar-label">🌍 국가</span>
   <div class="country-tabs" id="countryTabs"></div>
 </div>
 
-<!-- HERO -->
-<div class="hero">
-  <div class="hero-top">
-    <div>
-      <h1><span id="heroFlag"></span> <span class="hl" id="heroCountry">지금</span><br>트렌드 랭킹</h1>
-      <p class="hero-desc">AI가 웹을 직접 검색해 분석한 <span id="heroCountryName"></span> 최신 트렌드 🔥</p>
-      <div class="hero-pills">
-        <span class="pill pill-blue">🌐 실시간 웹검색</span>
-        <span class="pill pill-pink">🔥 매일 업데이트</span>
-        <span class="pill pill-yellow" id="cpmPill" style="display:none">💰 광고수익 최적화</span>
-      </div>
-    </div>
-    <div class="hero-right">
-      <div class="date-chip" id="datechip"></div>
-      <div class="country-active-badge" id="activeCountryBadge" style="display:none"></div>
-    </div>
-  </div>
+<!-- 카테고리 선택 -->
+<div class="cat-bar">
+  <span class="cat-bar-label">📂 카테고리</span>
+  <div class="cat-tabs" id="catTabs"></div>
 </div>
 
-<!-- STATS -->
+<!-- 통계 -->
 <div class="stats-bar">
-  <div class="stat-item"><div class="stat-val">16</div><div class="stat-label">CATEGORIES</div></div>
-  <div class="stat-item"><div class="stat-val" id="countryCount">1</div><div class="stat-label">COUNTRIES</div></div>
-  <div class="stat-item"><div class="stat-val" id="reactCount">0</div><div class="stat-label">REACTIONS</div></div>
-  <div class="stat-item"><div class="stat-val" id="quizScoreStat">-</div><div class="stat-label">QUIZ SCORE</div></div>
+  <div class="stat-item"><div class="stat-val" id="statVideos">-</div><div class="stat-label">VIDEOS</div></div>
+  <div class="stat-item"><div class="stat-val" id="statViews">-</div><div class="stat-label">TOTAL VIEWS</div></div>
+  <div class="stat-item"><div class="stat-val" id="statRegion">-</div><div class="stat-label">REGION</div></div>
+  <div class="stat-item"><div class="stat-val" id="statTime">-</div><div class="stat-label">UPDATED</div></div>
 </div>
 
-<!-- CATEGORIES -->
-<div class="cat-section">
-  <div class="section-label">CATEGORIES</div>
-  <div class="cat-grid" id="catGrid"></div>
-</div>
+<!-- 상태바 -->
+<div class="status-bar" id="statusBar"><div class="status-spin"></div><span id="statusTxt">유튜브 데이터 가져오는 중...</span></div>
 
-<!-- MAIN -->
-<div class="main">
-  <div class="rank-panel" id="rankPanel">
-    <div class="rank-header">
-      <div class="rank-title-wrap">
-        <div class="rank-title" id="rTitle">카테고리를 선택하세요</div>
-        <span class="rank-time" id="rankTime"></span>
-      </div>
-      <button class="refresh-btn" id="refreshBtn" onclick="doRefresh()">
-        <svg class="ricon" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M23 4v6h-6M1 20v-6h6"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
-        새로고침
-      </button>
-    </div>
-    <div class="status-bar" id="statusBar"><div class="status-spin"></div><span id="statusTxt">웹 검색 중...</span></div>
-    <div class="rank-list" id="rankList">
-      <div class="empty-state"><div class="big">👆</div><div>위에서 카테고리를 선택해보세요</div></div>
-    </div>
-  </div>
-
-  <!-- YOUTUBE PANEL -->
-  <div class="yt-panel" id="ytPanel">
-    <!-- API Key Setup -->
-    <div class="yt-api-setup" id="ytApiSetup">
-      <div class="yt-setup-title">🔑 YouTube API 키 설정</div>
-      <div class="yt-setup-desc">실제 유튜브 급상승 데이터를 보려면 무료 API 키가 필요해요. 5분이면 발급 가능해요!</div>
-      <div class="yt-steps">
-        <div class="yt-step"><div class="yt-step-num">1</div><div class="yt-step-text"><a href="https://console.cloud.google.com" target="_blank">console.cloud.google.com</a> 접속 → 구글 로그인</div></div>
-        <div class="yt-step"><div class="yt-step-num">2</div><div class="yt-step-text">왼쪽 메뉴 → <code>API 및 서비스</code> → <code>라이브러리</code></div></div>
-        <div class="yt-step"><div class="yt-step-num">3</div><div class="yt-step-text"><code>YouTube Data API v3</code> 검색 → 클릭 → <code>사용 설정</code></div></div>
-        <div class="yt-step"><div class="yt-step-num">4</div><div class="yt-step-text"><code>사용자 인증 정보</code> → <code>API 키 만들기</code> → 복사</div></div>
-      </div>
-      <div class="yt-input-row">
-        <input class="yt-input" id="ytKeyInput" type="text" placeholder="AIzaSy... (API 키 붙여넣기)" />
-        <button class="yt-submit" onclick="submitYtKey()">확인 →</button>
-      </div>
-      <div class="yt-api-error" id="ytApiError">❌ API 키가 올바르지 않아요. AIzaSy...로 시작하는 키를 입력해주세요.</div>
-    </div>
-
-    <!-- Controls (after key set) -->
-    <div id="ytControls" style="display:none">
-      <div class="yt-controls">
-        <div class="yt-region-tabs" id="ytRegionTabs"></div>
-        <div class="yt-cat-tabs" id="ytCatTabs"></div>
-        <button class="yt-refresh-btn" id="ytRefreshBtn" onclick="ytRefresh()">
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M23 4v6h-6M1 20v-6h6"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
-          새로고침
-        </button>
-        <button class="yt-change-key" onclick="ytChangeKey()">🔑 키 변경</button>
-      </div>
-      <div class="yt-stats">
-        <div class="yt-stat"><div class="yt-stat-val" id="ytStatVideos">-</div><div class="yt-stat-label">VIDEOS</div></div>
-        <div class="yt-stat"><div class="yt-stat-val" id="ytStatViews">-</div><div class="yt-stat-label">TOTAL VIEWS</div></div>
-        <div class="yt-stat"><div class="yt-stat-val" id="ytStatRegion">-</div><div class="yt-stat-label">REGION</div></div>
-        <div class="yt-stat"><div class="yt-stat-val" id="ytStatTime">-</div><div class="yt-stat-label">UPDATED</div></div>
-      </div>
-    </div>
-    <div class="yt-video-list" id="ytVideoList"></div>
-  </div>
-
-  <div class="sidebar">
-    <!-- Country quick select -->
-    <div class="side-card">
-      <div class="side-card-header">🌍 국가 선택</div>
-      <div class="country-card-body" id="countryCardGrid"></div>
-    </div>
-
-    <!-- Share -->
-    <div class="side-card">
-      <div class="side-card-header">📤 지금 공유하기</div>
-      <div class="share-card-body">
-        <div class="share-option" onclick="shareKakao()"><span class="so-icon">💬</span> 카카오톡 공유</div>
-        <div class="share-option" onclick="shareTwitter()"><span class="so-icon">🐦</span> X (트위터) 공유</div>
-        <div class="share-option" onclick="copyLink()"><span class="so-icon">🔗</span> 링크 복사</div>
-        <div class="share-toast" id="shareToast">✅ 복사됐어요!</div>
-      </div>
-    </div>
-
-    <!-- Hot list -->
-    <div class="side-card">
-      <div class="side-card-header">🌶️ 오늘의 전체 HOT</div>
-      <div class="hot-list" id="hotList">
-        <div style="padding:20px;text-align:center;color:var(--text-dim);font-size:12px">순위를 불러오면 표시돼요</div>
-      </div>
-    </div>
-
-    <!-- Mini Quiz -->
-    <div class="side-card">
-      <div class="side-card-header">🎮 오늘의 트렌드 퀴즈</div>
-      <div class="quiz-mini">
-        <div class="quiz-q" id="mq-q">순위를 먼저 불러오면 퀴즈가 생성됩니다!</div>
-        <div class="quiz-opts" id="mq-opts"></div>
-        <div class="quiz-result" id="mq-result"></div>
-        <button class="quiz-next" id="mq-next" onclick="nextMiniQuiz()">다음 문제 →</button>
-        <div class="quiz-score" id="mq-score"></div>
-      </div>
-    </div>
+<!-- 컨트롤 -->
+<div class="controls">
+  <div class="section-title" id="sectionTitle">🇰🇷 한국 전체 급상승</div>
+  <div style="display:flex;align-items:center;gap:10px">
+    <div class="update-badge" id="updateBadge">-</div>
+    <button class="refresh-btn" id="refreshBtn" onclick="doRefresh()">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M23 4v6h-6M1 20v-6h6"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
+      새로고침
+    </button>
   </div>
 </div>
 
-<!-- QUIZ MODAL -->
-<div class="modal-overlay" id="quizModal">
-  <div class="modal">
-    <div class="modal-header">
-      <div class="modal-title">🎮 트렌드 퀴즈</div>
-      <button class="modal-close" onclick="closeQuiz()">✕</button>
-    </div>
-    <div class="modal-body" id="modalBody">
-      <div style="text-align:center;padding:30px;color:var(--text-dim)">먼저 카테고리를 선택해 순위를 불러와주세요!</div>
-    </div>
-  </div>
+<!-- 영상 목록 -->
+<div class="video-section">
+  <div class="video-list" id="videoList"></div>
 </div>
 
 <div class="toast" id="toast"></div>
 
 <script>
-// ── COUNTRIES ──
 const COUNTRIES = [
-  { id:'kr', flag:'🇰🇷', name:'한국',   nameEn:'Korea',   lang:'ko', cpm:'800원',   locale:'ko-KR',
-    prompt: (cat, date) => `오늘(${date}) 한국에서 ${cat}에 대한 트렌드 TOP 8을 웹 검색으로 찾아줘. 한국 커뮤니티/SNS/미디어 기반.` },
-  { id:'us', flag:'🇺🇸', name:'미국',   nameEn:'USA',     lang:'en', cpm:'$4~6',    locale:'en-US',
-    prompt: (cat, date) => `Today (${date}) in the USA, find TOP 8 trending ${cat} based on web search. Use US-based sources like Reddit, Twitter, Google Trends.` },
-  { id:'jp', flag:'🇯🇵', name:'일본',   nameEn:'Japan',   lang:'ja', cpm:'¥600',    locale:'ja-JP',
-    prompt: (cat, date) => `今日(${date})、日本でトレンドになっている${cat} TOP 8をウェブ検索で探してください。日本のSNS・メディア基準。` },
-  { id:'gb', flag:'🇬🇧', name:'영국',   nameEn:'UK',      lang:'en', cpm:'£2~3',    locale:'en-GB',
-    prompt: (cat, date) => `Today (${date}) in the UK, find TOP 8 trending ${cat} based on web search. Use UK sources like BBC, Twitter UK, Google Trends UK.` },
-  { id:'br', flag:'🇧🇷', name:'브라질', nameEn:'Brazil',  lang:'pt', cpm:'R$2~4',   locale:'pt-BR',
-    prompt: (cat, date) => `Hoje (${date}) no Brasil, encontre o TOP 8 de tendências em ${cat} baseado em pesquisa web. Use fontes brasileiras.` },
-  { id:'in', flag:'🇮🇳', name:'인도',   nameEn:'India',   lang:'en', cpm:'₹80',     locale:'en-IN',
-    prompt: (cat, date) => `Today (${date}) in India, find TOP 8 trending ${cat} based on web search. Use Indian sources like Times of India, Twitter India.` },
-  { id:'de', flag:'🇩🇪', name:'독일',   nameEn:'Germany', lang:'de', cpm:'€2~4',    locale:'de-DE',
-    prompt: (cat, date) => `Heute (${date}) in Deutschland, finde TOP 8 Trends für ${cat} per Websuche. Deutsche Quellen nutzen.` },
-  { id:'fr', flag:'🇫🇷', name:'프랑스', nameEn:'France',  lang:'fr', cpm:'€1.5~3',  locale:'fr-FR',
-    prompt: (cat, date) => `Aujourd'hui (${date}) en France, trouvez le TOP 8 des tendances en ${cat} via recherche web. Sources françaises.` },
+  {code:'KR', flag:'🇰🇷', name:'한국'},
+  {code:'US', flag:'🇺🇸', name:'미국'},
+  {code:'JP', flag:'🇯🇵', name:'일본'},
+  {code:'GB', flag:'🇬🇧', name:'영국'},
+  {code:'IN', flag:'🇮🇳', name:'인도'},
+  {code:'BR', flag:'🇧🇷', name:'브라질'},
+  {code:'DE', flag:'🇩🇪', name:'독일'},
+  {code:'FR', flag:'🇫🇷', name:'프랑스'},
 ];
 
-const CATS_KR = [
-  {id:'youtube',e:'<svg width="22" height="16" viewBox="0 0 22 16" fill="none"><rect width="22" height="16" rx="4" fill="#FF0000"/><path d="M9 11.5V4.5L15.5 8L9 11.5Z" fill="white"/></svg>',n:'유튜브',en:'youtube',isYT:true},
-  {id:'meme',e:'😂',n:'밈',en:'memes / internet trends'},{id:'food',e:'🍜',n:'음식',en:'food trends'},
-  {id:'game',e:'🎮',n:'게임',en:'games'},{id:'music',e:'🎵',n:'음악',en:'music / artists'},
-  {id:'ott',e:'📺',n:'OTT',en:'streaming shows / movies'},{id:'word',e:'💬',n:'유행어',en:'slang / buzzwords'},
-  {id:'fashion',e:'👗',n:'패션',en:'fashion trends'},{id:'place',e:'📍',n:'핫플',en:'popular places'},
-  {id:'app',e:'📱',n:'앱/SNS',en:'apps / social media'},{id:'comm',e:'🌶️',n:'커뮤니티',en:'community hot topics'},
-  {id:'celeb',e:'🎤',n:'연예인',en:'celebrities / idols'},{id:'shop',e:'🛍️',n:'쇼핑',en:'shopping items / products'},
-  {id:'webtoon',e:'📚',n:'웹툰',en:'webtoons / web novels'},{id:'stock',e:'💰',n:'주식/코인',en:'stocks / crypto'},
-  {id:'travel',e:'✈️',n:'여행지',en:'travel destinations'},{id:'health',e:'💪',n:'운동/헬스',en:'fitness / health trends'},
+const CATEGORIES = [
+  {id:'0', name:'전체'},
+  {id:'10', name:'🎵 음악'},
+  {id:'20', name:'🎮 게임'},
+  {id:'22', name:'🎭 엔터'},
+  {id:'23', name:'😂 코미디'},
+  {id:'17', name:'⚽ 스포츠'},
+  {id:'28', name:'🔬 과학'},
+  {id:'25', name:'📰 뉴스'},
+  {id:'24', name:'🎬 영화'},
 ];
-
-const STATUSES_KR = ['🌐 웹 검색 중...','📊 트렌드 수집 중...','🤖 AI 분석 중...','✨ 순위 정리 중...'];
-const STATUSES_EN = ['🌐 Searching web...','📊 Collecting trends...','🤖 AI analyzing...','✨ Building ranking...'];
-const COLORS = ['#ffd700','#b0b0c8','#cd7f32','#ff3c5f','#ff8c00','#00d4ff','#b44fff','#00e87a'];
-const CHANGES = [{t:'new',l:'🆕'},{t:'up',l:'↑4'},{t:'up',l:'↑2'},{t:'up',l:'↑1'},{t:'same',l:'−'},{t:'down',l:'↓1'},{t:'down',l:'↓2'},{t:'up',l:'↑3'}];
 
 let activeCountry = COUNTRIES[0];
-let activeCountries = new Set(['kr']);
-let active = null;
-const cache = {}; // key: countryId_catId
-const reactions = {};
-let totalReactions = 0;
-let allItems = [];
-let quizPool=[], quizIdx=0, quizCorrect=0;
-let miniPool=[], miniIdx=0, miniCorrect=0, miniTotal=0;
+let activeCat = CATEGORIES[0];
+const cache = {};
 
-const TODAY_STR = new Date().toLocaleDateString('ko-KR',{year:'numeric',month:'long',day:'numeric'});
-document.getElementById('datechip').textContent = '📅 ' + TODAY_STR;
-
-// ── BUILD COUNTRY TABS ──
+// 국가 탭 생성
 const countryTabsEl = document.getElementById('countryTabs');
-const countryCardEl = document.getElementById('countryCardGrid');
 COUNTRIES.forEach(c => {
-  // Top bar tab
-  const tab = document.createElement('button');
-  tab.className = 'country-tab' + (c.id==='kr'?' active':'');
-  tab.id = 'ctab-'+c.id;
-  tab.innerHTML = `<span class="country-flag">${c.flag}</span><span class="country-name">${c.name}</span><span class="cpms">${c.cpm}</span>`;
-  tab.onclick = () => selectCountry(c);
-  countryTabsEl.appendChild(tab);
-
-  // Sidebar mini btn
-  const mini = document.createElement('button');
-  mini.className = 'country-mini-btn' + (c.id==='kr'?' active':'');
-  mini.id = 'cmini-'+c.id;
-  mini.innerHTML = `<span class="cmflag">${c.flag}</span><span>${c.name}</span><span class="cmcpm">${c.cpm}</span>`;
-  mini.onclick = () => selectCountry(c);
-  countryCardEl.appendChild(mini);
-});
-
-// ── BUILD CATEGORY GRID ──
-const grid = document.getElementById('catGrid');
-CATS_KR.forEach(c => {
   const b = document.createElement('button');
-  b.className='cat-btn'+(c.isYT?' yt-special':''); b.id='cb-'+c.id;
-  b.innerHTML=`<span class="cat-emoji" style="line-height:1;display:flex;align-items:center;justify-content:center">${c.e}</span><span>${c.n}</span>`;
-  b.onclick=()=>selectCat(c);
-  grid.appendChild(b);
+  b.className = 'country-tab' + (c.code==='KR'?' active':'');
+  b.id = 'ctab-'+c.code;
+  b.innerHTML = `<span class="country-flag">${c.flag}</span>${c.name}`;
+  b.onclick = () => {
+    activeCountry = c;
+    document.querySelectorAll('.country-tab').forEach(x=>x.classList.remove('active'));
+    b.classList.add('active');
+    fetchVideos();
+  };
+  countryTabsEl.appendChild(b);
 });
 
-// ── SELECT COUNTRY ──
-function selectCountry(country) {
-  activeCountry = country;
-  activeCountries.add(country.id);
-  document.getElementById('countryCount').textContent = activeCountries.size;
+// 카테고리 탭 생성
+const catTabsEl = document.getElementById('catTabs');
+CATEGORIES.forEach(c => {
+  const b = document.createElement('button');
+  b.className = 'cat-tab' + (c.id==='0'?' active':'');
+  b.id = 'cattab-'+c.id;
+  b.textContent = c.name;
+  b.onclick = () => {
+    activeCat = c;
+    document.querySelectorAll('.cat-tab').forEach(x=>x.classList.remove('active'));
+    b.classList.add('active');
+    fetchVideos();
+  };
+  catTabsEl.appendChild(b);
+});
 
-  document.querySelectorAll('.country-tab').forEach(b=>b.classList.remove('active'));
-  document.querySelectorAll('.country-mini-btn').forEach(b=>b.classList.remove('active'));
-  document.getElementById('ctab-'+country.id).classList.add('active');
-  document.getElementById('cmini-'+country.id).classList.add('active');
+async function fetchVideos() {
+  const ckey = activeCountry.code + '_' + activeCat.id;
+  if (cache[ckey]) { renderVideos(cache[ckey]); return; }
 
-  // Update hero
-  document.getElementById('heroFlag').textContent = country.flag;
-  document.getElementById('heroCountry').textContent = country.name;
-  document.getElementById('heroCountryName').textContent = country.name;
-  document.getElementById('activeCountryBadge').textContent = country.flag + ' ' + country.name + ' · CPM ' + country.cpm;
-  document.getElementById('cpmPill').textContent = '💰 CPM ' + country.cpm;
-
-  // Clear current ranking display & re-fetch if cat selected
-  allItems = allItems.filter(x => x.countryId !== country.id); // keep other countries
-  updateHotList();
-  if (active) {
-    document.getElementById('rTitle').textContent = active.e + ' ' + active.n + ' 순위';
-    const ckey = country.id + '_' + active.id;
-    if (cache[ckey]) { renderItems(ckey, cache[ckey].items); showTime(cache[ckey].ts); }
-    else fetchRank(active, country);
-  } else {
-    document.getElementById('rankList').innerHTML = `<div class="empty-state"><div class="big">👆</div><div>위에서 카테고리를 선택해보세요</div></div>`;
-    document.getElementById('rankTime').classList.remove('on');
-  }
-}
-
-// ── SELECT CATEGORY ──
-function selectCat(cat) {
-  document.querySelectorAll('.cat-btn').forEach(b=>b.classList.remove('active'));
-  document.getElementById('cb-'+cat.id).classList.add('active');
-  active = cat;
-
-  if (cat.isYT) {
-    // Show YouTube panel, hide rank panel
-    document.getElementById('rankPanel').style.display = 'none';
-    document.getElementById('ytPanel').classList.add('on');
-    document.getElementById('rTitle').textContent = '▶️ 유튜브 급상승';
-    initYtPanel();
-    return;
-  }
-
-  // Normal category
-  document.getElementById('rankPanel').style.display = 'block';
-  document.getElementById('ytPanel').classList.remove('on');
-  document.getElementById('rTitle').textContent = cat.e + ' ' + cat.n + ' 순위';
-  const ckey = activeCountry.id + '_' + cat.id;
-  if (cache[ckey]) { renderItems(ckey, cache[ckey].items); showTime(cache[ckey].ts); }
-  else fetchRank(cat, activeCountry);
-}
-
-// ── FETCH ──
-async function fetchRank(cat, country) {
   showSkel();
-  document.getElementById('rankTime').classList.remove('on');
   document.getElementById('refreshBtn').classList.add('loading');
   document.getElementById('statusBar').classList.add('on');
-  const isKr = country.lang === 'ko';
-  const statuses = isKr ? STATUSES_KR : STATUSES_EN;
-  let si=0;
-  const tick = setInterval(()=>{ document.getElementById('statusTxt').textContent=statuses[si++%statuses.length]; },1800);
-
-  const dateStr = new Date().toLocaleDateString(country.locale, {year:'numeric',month:'long',day:'numeric'});
-  const prompt = country.prompt(cat.en || cat.n, dateStr);
+  document.getElementById('statusTxt').textContent = `📡 ${activeCountry.flag} ${activeCountry.name} 급상승 데이터 가져오는 중...`;
 
   try {
-    const res = await fetch('/api/chat',{
-      method:'POST', headers:{'Content-Type':'application/json'},
-      body: JSON.stringify({
-        model:'claude-sonnet-4-20250514', max_tokens:1000,
-        system:`You are a trend analyst. After web searching, respond with PURE JSON only. No other text.
-Format: {"items":[{"rank":1,"name":"name","desc":"description (max 80 chars)","heat":95},...]}
-Exactly 8 items. heat 1-100. Write names and descriptions in ${country.lang === 'ko' ? 'Korean' : country.lang === 'ja' ? 'Japanese' : country.lang === 'pt' ? 'Portuguese' : country.lang === 'de' ? 'German' : country.lang === 'fr' ? 'French' : 'English'}.`,
-        messages:[{role:'user', content: prompt + ' Respond with JSON only.'}],
-        tools:[{type:'web_search_20250305', name:'web_search'}]
-      })
-    });
+    let url = `/api/youtube?region=${activeCountry.code}&categoryId=${activeCat.id}`;
+    const res = await fetch(url);
+
+    if (!res.ok) {
+      const err = await res.json();
+      throw new Error(err.error || 'API Error');
+    }
+
     const data = await res.json();
-    const text = (data.content||[]).filter(b=>b.type==='text').map(b=>b.text).join('');
-    const parsed = JSON.parse(text.replace(/```json|```/g,'').trim());
-    const ts = new Date().toLocaleTimeString('ko-KR');
-    const ckey = country.id + '_' + cat.id;
-    cache[ckey] = {items:parsed.items, ts};
-    parsed.items.forEach(it => {
-      allItems = allItems.filter(x=>!(x.countryId===country.id && x.catId===cat.id && x.name===it.name));
-      allItems.push({...it, cat:cat.n, catE:cat.e, catId:cat.id, countryId:country.id, countryFlag:country.flag});
-    });
-    updateHotList();
-    buildQuizPool();
-    renderItems(ckey, parsed.items);
-    showTime(ts);
+    if (!data.items || !data.items.length) {
+      document.getElementById('videoList').innerHTML = `<div class="err-box"><div style="font-size:32px;margin-bottom:8px">😶</div><p>해당 카테고리에 급상승 영상이 없어요.</p></div>`;
+      return;
+    }
+
+    cache[ckey] = data.items;
+    renderVideos(data.items);
   } catch(e) {
-    document.getElementById('rankList').innerHTML=`<div class="err-box"><div style="font-size:36px;margin-bottom:8px">⚠️</div><p>불러오지 못했어요. 다시 시도해주세요.</p></div>`;
+    document.getElementById('videoList').innerHTML = `<div class="err-box"><div style="font-size:32px;margin-bottom:8px">⚠️</div><p>데이터를 불러오지 못했어요.<br>YouTube API 키를 확인해주세요.<br><small style="font-size:11px;opacity:.6">${e.message}</small></p></div>`;
   } finally {
-    clearInterval(tick);
     document.getElementById('refreshBtn').classList.remove('loading');
     document.getElementById('statusBar').classList.remove('on');
   }
 }
 
-function showSkel() {
-  document.getElementById('rankList').innerHTML = Array(8).fill(0).map(()=>`
-    <div class="skel">
-      <div class="sk" style="height:26px;width:36px;margin:auto"></div>
-      <div><div class="sk" style="height:14px;width:50%;margin-bottom:8px"></div><div class="sk" style="height:11px;width:78%"></div></div>
-      <div class="sk" style="height:44px;width:44px;border-radius:50%"></div>
-    </div>`).join('');
-}
+function renderVideos(items) {
+  const medals = ['🥇','🥈','🥉'];
+  let totalViews = 0;
 
-function renderItems(ckey, items) {
-  const medals=['🥇','🥈','🥉'];
-  document.getElementById('rankList').innerHTML = items.map((it,i)=>{
-    const key=ckey+'_'+i;
-    if(!reactions[key]) reactions[key]={fire:Math.floor(Math.random()*80+5),idk:Math.floor(Math.random()*40+2),vote:null};
-    const r=reactions[key];
-    const ch=CHANGES[i]||CHANGES[4];
-    const circ=Math.round((it.heat/100)*113);
-    const col=COLORS[i]||'#ff3c5f';
-    return `
-    <div class="rank-item r${i+1}" id="item-${key}">
-      <div class="item-main">
-        <div class="item-num">${i<3?`<span class="medal">${medals[i]}</span>`:`#${i+1}`}</div>
-        <div class="item-info">
-          <div class="item-name-row">
-            <span class="item-name">${it.name}</span>
-            <span class="change ${ch.t}">${ch.l}</span>
-          </div>
-          <div class="item-desc">${it.desc}</div>
-        </div>
-        <div class="item-heat">
-          <div class="heat-ring">
-            <svg width="44" height="44" viewBox="0 0 44 44">
-              <circle class="track" cx="22" cy="22" r="18"/>
-              <circle class="prog" cx="22" cy="22" r="18" stroke="${col}" style="stroke-dashoffset:${113-circ}"/>
-            </svg>
-            <div class="heat-center">${it.heat}🔥</div>
-          </div>
-        </div>
-      </div>
-      <div class="item-reactions">
-        <button class="react-btn ${r.vote==='fire'?'voted':''}" onclick="react('${key}','fire',this)">🔥 <span class="react-count">${r.fire}</span></button>
-        <button class="react-btn ${r.vote==='idk'?'voted2':''}" onclick="react('${key}','idk',this)">🤔 <span class="react-count">${r.idk}</span></button>
-        <button class="share-btn" onclick="shareItem('${it.name.replace(/'/g,"\\'").replace(/"/g,'\\"')}')">↗ 공유</button>
-      </div>
-    </div>`;
-  }).join('');
-}
+  document.getElementById('videoList').innerHTML = items.slice(0,20).map((item, i) => {
+    const s = item.snippet, st = item.statistics||{}, cd = item.contentDetails||{};
+    const views = parseInt(st.viewCount||0);
+    const likes = parseInt(st.likeCount||0);
+    totalViews += views;
+    const thumb = s.thumbnails?.medium?.url || '';
+    const dur = parseDur(cd.duration||'');
+    const hoursAgo = (Date.now() - new Date(s.publishedAt)) / 3600000;
+    const vph = hoursAgo > 0 ? Math.round(views/hoursAgo) : 0;
+    const spike = vph > 1000 ? fmt(vph)+'/hr' : null;
 
-// ── REACTIONS ──
-function react(key,type,btn){
-  const r=reactions[key];
-  const item=document.getElementById('item-'+key);
-  const btns=item.querySelectorAll('.react-btn');
-  const isUnvote=r.vote===type;
-  if(r.vote&&r.vote!==type){
-    reactions[key][r.vote]--;
-    const ob=btns[r.vote==='fire'?0:1];
-    ob.classList.remove('voted','voted2');
-    ob.querySelector('.react-count').textContent=reactions[key][r.vote];
-    totalReactions--;
-  }
-  if(isUnvote){reactions[key][type]--;btn.classList.remove('voted','voted2');reactions[key].vote=null;totalReactions--;}
-  else{reactions[key][type]++;btn.classList.add(type==='fire'?'voted':'voted2');reactions[key].vote=type;totalReactions++;}
-  btn.querySelector('.react-count').textContent=reactions[key][type];
-  document.getElementById('reactCount').textContent=totalReactions;
-}
-
-// ── HOT LIST ──
-function updateHotList(){
-  const sorted=[...allItems].sort((a,b)=>b.heat-a.heat).slice(0,10);
-  document.getElementById('hotList').innerHTML=sorted.length?sorted.map((it,i)=>`
-    <div class="hot-item" onclick="selectCatById('${it.catId}','${it.countryId}')">
-      <span class="hot-rank">${i+1}</span>
-      <span class="hot-name">${it.countryFlag} ${it.name}</span>
-      <span class="hot-cat">${it.catE}</span>
-    </div>`).join(''):`<div style="padding:20px;text-align:center;color:var(--text-dim);font-size:12px">순위를 불러오면 표시돼요</div>`;
-}
-
-function selectCatById(catId, countryId){
-  const co=COUNTRIES.find(x=>x.id===countryId);
-  const ca=CATS_KR.find(x=>x.id===catId);
-  if(co&&co.id!==activeCountry.id) selectCountry(co);
-  if(ca) selectCat(ca);
-}
-
-// ── QUIZ ──
-function buildQuizPool(){
-  if(allItems.length<4)return;
-  const pool=[];
-  allItems.forEach(it=>{
-    const wrong=allItems.filter(x=>x.name!==it.name);
-    if(wrong.length<3)return;
-    const opts=shuffle([it.name,...shuffle(wrong).slice(0,3).map(x=>x.name)]);
-    pool.push({q:`이 설명에 해당하는 트렌드는?\n\n"${it.desc}"`,opts,ans:it.name,exp:`${it.countryFlag} ${it.catE} 분야 인기도 ${it.heat}🔥 — "${it.name}"`});
-  });
-  quizPool=shuffle(pool);
-  if(miniPool.length===0){miniPool=quizPool.slice(0,5);showMiniQuestion();}
-}
-
-function showMiniQuestion(){
-  if(!miniPool.length)return;
-  const q=miniPool[miniIdx%miniPool.length];
-  document.getElementById('mq-q').textContent=q.q;
-  document.getElementById('mq-result').classList.remove('on');
-  document.getElementById('mq-next').classList.remove('on');
-  document.getElementById('mq-opts').innerHTML=q.opts.map(o=>`<button class="quiz-opt" onclick="answerMini(this,'${o.replace(/'/g,"\\'").replace(/"/g,'\\"')}')">${o}</button>`).join('');
-  document.getElementById('mq-score').textContent=`${miniCorrect}/${miniTotal} 정답`;
-}
-function answerMini(btn,ans){
-  const q=miniPool[miniIdx%miniPool.length];miniTotal++;
-  document.querySelectorAll('#mq-opts .quiz-opt').forEach(b=>b.disabled=true);
-  const ok=ans===q.ans;if(ok)miniCorrect++;
-  btn.classList.add(ok?'correct':'wrong');
-  if(!ok)document.querySelectorAll('#mq-opts .quiz-opt').forEach(b=>{if(b.textContent===q.ans)b.classList.add('correct');});
-  document.getElementById('mq-result').textContent=ok?'🎉 정답!':'❌ 오답: '+q.ans;
-  document.getElementById('mq-result').classList.add('on');
-  document.getElementById('mq-next').classList.add('on');
-  document.getElementById('mq-score').textContent=`${miniCorrect}/${miniTotal} 정답`;
-}
-function nextMiniQuiz(){miniIdx=(miniIdx+1)%miniPool.length;showMiniQuestion();}
-
-function openQuiz(){
-  document.getElementById('quizModal').classList.add('on');
-  if(!quizPool.length){document.getElementById('modalBody').innerHTML=`<div style="text-align:center;padding:30px;color:var(--text-dim)">먼저 카테고리를 선택해 순위를 불러와주세요!</div>`;return;}
-  quizIdx=0;quizCorrect=0;showModalQ();
-}
-function closeQuiz(){document.getElementById('quizModal').classList.remove('on');}
-function showModalQ(){
-  const total=Math.min(quizPool.length,10);
-  if(quizIdx>=total){showQuizResult(quizCorrect,total);return;}
-  const q=quizPool[quizIdx];
-  const bars=Array(total).fill(0).map((_,i)=>`<div class="mq-prog-bar ${i<quizIdx?'done':i===quizIdx?'current':''}"></div>`).join('');
-  document.getElementById('modalBody').innerHTML=`
-    <div class="mq-progress">${bars}</div>
-    <div class="mq-num">문제 ${quizIdx+1} / ${total}</div>
-    <div class="mq-question">${q.q}</div>
-    <div class="mq-options">${q.opts.map(o=>`<button class="mq-opt" onclick="answerModal(this,'${o.replace(/'/g,"\\'").replace(/"/g,'\\"')}')">${o}</button>`).join('')}</div>
-    <div class="mq-feedback" id="mfb"></div>
-    <button class="mq-next" id="mnext" onclick="nextModalQ()">다음 문제 →</button>`;
-}
-function answerModal(btn,ans){
-  const q=quizPool[quizIdx];
-  document.querySelectorAll('.mq-opt').forEach(b=>b.disabled=true);
-  const ok=ans===q.ans;if(ok)quizCorrect++;
-  btn.classList.add(ok?'correct':'wrong');
-  if(!ok)document.querySelectorAll('.mq-opt').forEach(b=>{if(b.textContent===q.ans)b.classList.add('correct');});
-  document.getElementById('mfb').textContent=(ok?'🎉 정답! ':'❌ 오답! ')+q.exp;
-  document.getElementById('mfb').classList.add('on');
-  document.getElementById('mnext').classList.add('on');
-}
-function nextModalQ(){quizIdx++;showModalQ();}
-function showQuizResult(c,t){
-  const pct=Math.round((c/t)*100);
-  const msg=pct===100?'완벽! 글로벌 트렌드 마스터!':pct>=80?'대단해요! 트렌드 고수!':pct>=60?'나쁘지 않아요!':'더 열심히 트렌드 공부해봐요!';
-  document.getElementById('modalBody').innerHTML=`<div class="mq-result"><div class="mq-result-score">${c}/${t}</div><div class="mq-result-msg">${msg}</div><div class="mq-result-sub">${pct}% 정답률</div><button class="mq-restart" onclick="openQuiz()">다시 도전 🔄</button></div>`;
-  document.getElementById('quizScoreStat').textContent=`${c}/${t}`;
-}
-
-// ── SHARE ──
-function shareKakao(){showToast('💬 카카오톡 공유는 배포 후 활성화돼요!');}
-function shareTwitter(){
-  const text=active?`${activeCountry.flag} ${activeCountry.name} ${active.n} 트렌드 TOP 8! 🔥 TRENDY`:'TRENDY — 글로벌 트렌드 랭킹 확인해봐! 🌍🔥';
-  window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}`,'_blank');
-}
-function copyLink(){
-  navigator.clipboard.writeText(window.location.href).catch(()=>{});
-  const t=document.getElementById('shareToast');
-  t.classList.remove('on');setTimeout(()=>{t.classList.add('on');setTimeout(()=>t.classList.remove('on'),2200);},10);
-}
-function shareItem(name){navigator.clipboard.writeText(`"${name}" — TRENDY 트렌드 랭킹에서 발견! 🔥`).catch(()=>{});showToast(`📋 "${name}" 공유 텍스트 복사!`);}
-function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2500);}
-function shuffle(arr){return[...arr].sort(()=>Math.random()-.5);}
-function showTime(ts){const el=document.getElementById('rankTime');el.textContent=ts+' 기준';el.classList.add('on');}
-function doRefresh(){if(!active)return;const ckey=activeCountry.id+'_'+active.id;delete cache[ckey];fetchRank(active,activeCountry);}
-document.getElementById('quizModal').addEventListener('click',e=>{if(e.target===document.getElementById('quizModal'))closeQuiz();});
-
-// ── YOUTUBE ──
-const YT_REGIONS = [
-  {code:'KR',flag:'🇰🇷',name:'한국'},{code:'US',flag:'🇺🇸',name:'미국'},
-  {code:'JP',flag:'🇯🇵',name:'일본'},{code:'GB',flag:'🇬🇧',name:'영국'},
-  {code:'IN',flag:'🇮🇳',name:'인도'},{code:'BR',flag:'🇧🇷',name:'브라질'},
-];
-const YT_CATS = [
-  {id:'0',name:'전체'},{id:'10',name:'🎵 음악'},{id:'20',name:'🎮 게임'},
-  {id:'22',name:'🎭 엔터'},{id:'23',name:'😂 코미디'},{id:'17',name:'⚽ 스포츠'},
-  {id:'28',name:'🔬 과학'},{id:'25',name:'📰 뉴스'},
-];
-let ytApiKey = localStorage.getItem('yt_api_key') || '';
-let ytRegion = YT_REGIONS[0];
-let ytCat = YT_CATS[0];
-const ytCache = {};
-let ytBuilt = false;
-
-function initYtPanel() {
-  if (!ytBuilt) {
-    // Build region tabs
-    const rEl = document.getElementById('ytRegionTabs');
-    YT_REGIONS.forEach(r => {
-      const b = document.createElement('button');
-      b.className='yt-tab'+(r.code==='KR'?' active':'');
-      b.id='ytr-'+r.code;
-      b.textContent=r.flag+' '+r.name;
-      b.onclick=()=>{ ytRegion=r; document.querySelectorAll('#ytRegionTabs .yt-tab').forEach(x=>x.classList.remove('active')); b.classList.add('active'); ytFetch(); };
-      rEl.appendChild(b);
-    });
-    // Build cat tabs
-    const cEl = document.getElementById('ytCatTabs');
-    YT_CATS.forEach(c => {
-      const b = document.createElement('button');
-      b.className='yt-tab'+(c.id==='0'?' active':'');
-      b.id='ytc-'+c.id;
-      b.textContent=c.name;
-      b.onclick=()=>{ ytCat=c; document.querySelectorAll('#ytCatTabs .yt-tab').forEach(x=>x.classList.remove('active')); b.classList.add('active'); ytFetch(); };
-      cEl.appendChild(b);
-    });
-    document.getElementById('ytKeyInput').addEventListener('keydown',e=>{if(e.key==='Enter')submitYtKey();});
-    ytBuilt=true;
-  }
-  if (ytApiKey) { ytShowControls(); ytFetch(); }
-}
-
-function submitYtKey() {
-  const val = document.getElementById('ytKeyInput').value.trim();
-  if (!val || !val.startsWith('AIza')) { document.getElementById('ytApiError').classList.add('on'); return; }
-  ytApiKey = val;
-  localStorage.setItem('yt_api_key', ytApiKey);
-  document.getElementById('ytApiError').classList.remove('on');
-  ytShowControls();
-  ytFetch();
-}
-
-function ytShowControls() {
-  document.getElementById('ytApiSetup').style.display='none';
-  document.getElementById('ytControls').style.display='block';
-}
-
-function ytChangeKey() {
-  ytApiKey=''; localStorage.removeItem('yt_api_key');
-  document.getElementById('ytApiSetup').style.display='block';
-  document.getElementById('ytControls').style.display='none';
-  document.getElementById('ytKeyInput').value='';
-  document.getElementById('ytVideoList').innerHTML='';
-}
-
-async function ytFetch() {
-  const ckey = ytRegion.code+'_'+ytCat.id;
-  if (ytCache[ckey]) { ytRender(ytCache[ckey]); return; }
-  ytShowSkel();
-  document.getElementById('ytRefreshBtn').classList.add('loading');
-  try {
-    let url = `https://www.googleapis.com/youtube/v3/videos?part=snippet,statistics,contentDetails&chart=mostPopular&regionCode=${ytRegion.code}&maxResults=20&key=${ytApiKey}`;
-    if (ytCat.id !== '0') url += `&videoCategoryId=${ytCat.id}`;
-    const res = await fetch(url);
-    if (!res.ok) throw new Error(res.status===403?'invalid_key':'api_error');
-    const data = await res.json();
-    if (!data.items||!data.items.length) { document.getElementById('ytVideoList').innerHTML=`<div class="err-box"><div style="font-size:32px;margin-bottom:8px">😶</div><p>해당 카테고리에 영상이 없어요.</p></div>`; return; }
-    ytCache[ckey]=data.items;
-    ytRender(data.items);
-  } catch(e) {
-    const msg = e.message==='invalid_key' ? '🔑 API 키가 올바르지 않거나 YouTube Data API v3가 활성화되지 않았어요.' : '⚠️ 데이터를 불러오지 못했어요. 잠시 후 다시 시도해주세요.';
-    document.getElementById('ytVideoList').innerHTML=`<div class="err-box"><div style="font-size:32px;margin-bottom:8px">⚠️</div><p>${msg}</p></div>`;
-  } finally {
-    document.getElementById('ytRefreshBtn').classList.remove('loading');
-  }
-}
-
-function ytRender(items) {
-  const medals=['🥇','🥈','🥉'];
-  let totalViews=0;
-  document.getElementById('ytVideoList').innerHTML=items.slice(0,20).map((item,i)=>{
-    const s=item.snippet, st=item.statistics||{}, cd=item.contentDetails||{};
-    const views=parseInt(st.viewCount||0), likes=parseInt(st.likeCount||0);
-    totalViews+=views;
-    const thumb=s.thumbnails?.medium?.url||'';
-    const dur=ytParseDur(cd.duration||'');
-    const hoursAgo=(Date.now()-new Date(s.publishedAt))/3600000;
-    const vph=hoursAgo>0?Math.round(views/hoursAgo):0;
-    const spike=vph>1000?ytFmt(vph)+'/hr':null;
     return `
     <div class="yt-card r${i<3?i+1:''}" onclick="window.open('https://youtube.com/watch?v=${item.id}','_blank')">
       <div class="yt-rank">
         <div class="yt-rank-num">${i<3?`<span class="yt-medal">${medals[i]}</span>`:`#${i+1}`}</div>
       </div>
-      ${thumb?`<div class="yt-thumb-wrap"><img class="yt-thumb" src="${thumb}" loading="lazy" onerror="this.parentElement.innerHTML='<div class=\\"yt-thumb-ph\\">▶</div>'"/>${dur?`<span class="yt-duration">${dur}</span>`:''}</div>`:`<div class="yt-thumb-ph">▶</div>`}
+      ${thumb
+        ? `<div class="yt-thumb-wrap"><img class="yt-thumb" src="${thumb}" loading="lazy" onerror="this.parentElement.innerHTML='<div class=\\"yt-thumb-ph\\">▶</div>'"/>${dur?`<span class="yt-duration">${dur}</span>`:''}</div>`
+        : `<div class="yt-thumb-ph">▶</div>`
+      }
       <div class="yt-info">
-        <div class="yt-title">${ytEsc(s.title)}</div>
-        <div class="yt-channel">${ytEsc(s.channelTitle)} · ${ytAgo(s.publishedAt)}</div>
-        <div class="yt-meta-row">${(s.tags||[]).slice(0,2).map(t=>`<span class="yt-badge">${ytEsc(t)}</span>`).join('')}</div>
+        <div class="yt-title">${esc(s.title)}</div>
+        <div class="yt-channel">${esc(s.channelTitle)} · ${ago(s.publishedAt)}</div>
+        <div style="display:flex;gap:5px;flex-wrap:wrap">${(s.tags||[]).slice(0,2).map(t=>`<span class="yt-badge">${esc(t)}</span>`).join('')}</div>
       </div>
       <div class="yt-vstats">
-        <div><div class="yt-views">${ytFmt(views)}</div><div class="yt-views-label">VIEWS</div></div>
-        <div class="yt-likes">👍 ${ytFmt(likes)}</div>
+        <div><div class="yt-views">${fmt(views)}</div><div class="yt-views-label">VIEWS</div></div>
+        <div class="yt-likes">👍 ${fmt(likes)}</div>
         ${spike?`<div class="yt-spike">🔥 ${spike}</div>`:''}
       </div>
     </div>`;
   }).join('');
-  const now=new Date().toLocaleTimeString('ko-KR',{hour:'2-digit',minute:'2-digit'});
-  document.getElementById('ytStatVideos').textContent=Math.min(items.length,20);
-  document.getElementById('ytStatViews').textContent=ytFmt(totalViews);
-  document.getElementById('ytStatRegion').textContent=ytRegion.flag+' '+ytRegion.name;
-  document.getElementById('ytStatTime').textContent=now;
+
+  const now = new Date().toLocaleTimeString('ko-KR',{hour:'2-digit',minute:'2-digit'});
+  document.getElementById('statVideos').textContent = Math.min(items.length, 20);
+  document.getElementById('statViews').textContent = fmt(totalViews);
+  document.getElementById('statRegion').textContent = activeCountry.flag + ' ' + activeCountry.name;
+  document.getElementById('statTime').textContent = now;
+  document.getElementById('sectionTitle').textContent = `${activeCountry.flag} ${activeCountry.name} ${activeCat.name} 급상승`;
+  document.getElementById('updateBadge').textContent = now + ' 기준';
 }
 
-function ytShowSkel(){document.getElementById('ytVideoList').innerHTML=Array(8).fill(0).map(()=>`<div class="skel" style="grid-template-columns:52px 160px 1fr 90px"><div class="sk" style="height:24px;width:36px;margin:auto"></div><div class="sk" style="height:90px;border-radius:8px"></div><div><div class="sk" style="height:14px;width:75%;margin-bottom:8px"></div><div class="sk" style="height:11px;width:50%"></div></div><div class="sk" style="height:50px;width:80px"></div></div>`).join('');}
-function ytRefresh(){const ckey=ytRegion.code+'_'+ytCat.id;delete ytCache[ckey];ytFetch();}
-function ytParseDur(iso){if(!iso)return'';const m=iso.match(/PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?/);if(!m)return'';const h=parseInt(m[1]||0),mn=parseInt(m[2]||0),s=parseInt(m[3]||0);return h>0?`${h}:${String(mn).padStart(2,'0')}:${String(s).padStart(2,'0')}`:`${mn}:${String(s).padStart(2,'0')}`;}
-function ytFmt(n){if(n>=1e8)return(n/1e8).toFixed(1)+'억';if(n>=1e4)return Math.round(n/1e4)+'만';if(n>=1000)return(n/1000).toFixed(1)+'K';return String(n);}
-function ytAgo(d){const diff=(Date.now()-new Date(d))/1000;if(diff<3600)return Math.floor(diff/60)+'분 전';if(diff<86400)return Math.floor(diff/3600)+'시간 전';return Math.floor(diff/86400)+'일 전';}
-function ytEsc(s){return(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+function showSkel() {
+  document.getElementById('videoList').innerHTML = Array(10).fill(0).map(()=>`
+    <div class="skel">
+      <div class="sk" style="height:24px;width:36px;margin:auto"></div>
+      <div class="sk" style="height:90px;border-radius:8px"></div>
+      <div><div class="sk" style="height:14px;width:75%;margin-bottom:8px"></div><div class="sk" style="height:11px;width:50%;margin-bottom:8px"></div><div class="sk" style="height:20px;width:30%"></div></div>
+      <div style="display:flex;flex-direction:column;align-items:flex-end;gap:6px"><div class="sk" style="height:18px;width:70px"></div><div class="sk" style="height:14px;width:50px"></div></div>
+    </div>`).join('');
+}
 
-// ── INIT ──
-selectCountry(COUNTRIES[0]);
-selectCat(CATS_KR[1]); // skip YouTube, start with 밈
+function doRefresh() {
+  const ckey = activeCountry.code + '_' + activeCat.id;
+  delete cache[ckey];
+  fetchVideos();
+}
+
+function parseDur(iso) {
+  if (!iso) return '';
+  const m = iso.match(/PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?/);
+  if (!m) return '';
+  const h=parseInt(m[1]||0), mn=parseInt(m[2]||0), s=parseInt(m[3]||0);
+  return h>0 ? `${h}:${String(mn).padStart(2,'0')}:${String(s).padStart(2,'0')}` : `${mn}:${String(s).padStart(2,'0')}`;
+}
+
+function fmt(n) {
+  if (n>=1e8) return (n/1e8).toFixed(1)+'억';
+  if (n>=1e4) return Math.round(n/1e4)+'만';
+  if (n>=1000) return (n/1000).toFixed(1)+'K';
+  return String(n);
+}
+
+function ago(d) {
+  const diff = (Date.now()-new Date(d))/1000;
+  if (diff<3600) return Math.floor(diff/60)+'분 전';
+  if (diff<86400) return Math.floor(diff/3600)+'시간 전';
+  return Math.floor(diff/86400)+'일 전';
+}
+
+function esc(s) {
+  return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2500);}
+
+// 초기 로드
+fetchVideos();
 </script>
 </body>
 </html>
