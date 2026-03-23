@@ -5,7 +5,7 @@ export default async function handler(req, res) {
 
   if (req.method === 'OPTIONS') return res.status(200).end();
 
-  const { region = 'KR', categoryId = '0' } = req.query;
+  const { region = 'KR', categoryId = '0', channelIds } = req.query;
   const apiKey = process.env.YOUTUBE_API_KEY;
 
   if (!apiKey) {
@@ -13,8 +13,16 @@ export default async function handler(req, res) {
   }
 
   try {
-    let url = `https://www.googleapis.com/youtube/v3/videos?part=snippet,statistics,contentDetails&chart=mostPopular&regionCode=${region}&maxResults=20&key=${apiKey}`;
-    if (categoryId && categoryId !== '0') url += `&videoCategoryId=${categoryId}`;
+    let url;
+
+    if (channelIds) {
+      // 채널 구독자 수 조회
+      url = `https://www.googleapis.com/youtube/v3/channels?part=snippet,statistics&id=${channelIds}&key=${apiKey}`;
+    } else {
+      // 급상승 영상 조회
+      url = `https://www.googleapis.com/youtube/v3/videos?part=snippet,statistics,contentDetails&chart=mostPopular&regionCode=${region}&maxResults=20&key=${apiKey}`;
+      if (categoryId && categoryId !== '0') url += `&videoCategoryId=${categoryId}`;
+    }
 
     const response = await fetch(url);
     const data = await response.json();
