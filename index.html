@@ -79,7 +79,7 @@ header{position:sticky;top:0;z-index:200;background:rgba(8,8,16,.92);backdrop-fi
 .status-spin{width:12px;height:12px;border:2px solid rgba(255,0,0,.2);border-top-color:var(--yt);border-radius:50%;animation:spin .8s linear infinite;flex-shrink:0}
 
 /* VIDEO LIST */
-.video-section{padding:20px 28px 60px;position:relative;z-index:1}
+.video-section{padding:20px 28px 60px;position:relative;z-index:1;overflow-x:hidden}
 .video-list{display:flex;flex-direction:column;gap:8px}
 
 /* VIDEO CARD */
@@ -137,9 +137,10 @@ header{position:sticky;top:0;z-index:200;background:rgba(8,8,16,.92);backdrop-fi
   header{padding:0 16px}
   .hero,.controls,.video-section{padding-left:16px;padding-right:16px}
   .country-bar,.cat-bar{padding-left:16px;padding-right:16px}
-  .yt-card{grid-template-columns:36px 120px 1fr}
-  .yt-thumb{width:120px;height:68px}
-  .yt-thumb-ph{width:120px;height:68px}
+  .yt-card{grid-template-columns:36px 200px 1fr}
+  .yt-thumb{width:200px;height:113px}
+  .yt-thumb-ph{width:200px;height:113px}
+  .yt-info{padding:10px 12px}
   .stat-item{padding:12px 16px}
 }
 </style>
@@ -321,7 +322,7 @@ function renderVideos(items) {
         <div class="yt-rank-num">${i<3?`<span class="yt-medal">${medals[i]}</span>`:`#${i+1}`}</div>
       </div>
       ${thumb
-        ? `<div class="yt-thumb-wrap"><img class="yt-thumb" src="${thumb}" loading="lazy" onerror="this.parentElement.innerHTML='<div class=\\"yt-thumb-ph\\">▶</div>'"/>${dur?`<span class="yt-duration">${dur}</span>`:''}</div>`
+        ? `<div class="yt-thumb-wrap"><img class="yt-thumb" src="${thumb}" loading="lazy" onerror="this.style.display='none'">${dur?`<span class="yt-duration">${dur}</span>`:''}</div>`
         : `<div class="yt-thumb-ph">▶</div>`
       }
       <div class="yt-info">
