@@ -124,7 +124,45 @@ header{position:sticky;top:0;z-index:200;background:rgba(8,8,16,.92);backdrop-fi
 .yt-tags{display:flex;gap:5px;flex-wrap:wrap}
 .yt-badge{font-family:'Space Mono',monospace;font-size:9px;padding:2px 7px;border-radius:6px;background:rgba(255,0,0,.08);border:1px solid rgba(255,0,0,.15);color:var(--yt2)}
 
-/* SKELETON */
+/* VIEW MODE TABS */
+.view-bar{display:flex;align-items:center;border-bottom:1px solid var(--border);padding:0 28px;background:rgba(8,8,16,.6)}
+.view-tabs{display:flex;gap:0}
+.view-tab{padding:12px 24px;border:none;background:transparent;color:var(--text-dim);cursor:pointer;font-family:'Black Han Sans',sans-serif;font-size:14px;letter-spacing:1px;border-bottom:2px solid transparent;transition:all .2s;display:flex;align-items:center;gap:6px}
+.view-tab:hover{color:var(--text)}
+.view-tab.active{color:var(--yt);border-bottom-color:var(--yt)}
+
+/* CHANNEL CARD */
+.ch-list{display:flex;flex-direction:column;gap:8px}
+.ch-card{display:grid;grid-template-columns:56px 64px 1fr auto;align-items:center;gap:14px;background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:14px 18px;transition:all .25s;cursor:pointer;animation:itemIn .4s ease forwards;opacity:0}
+.ch-card:hover{border-color:rgba(255,0,0,.35);background:var(--surface2);transform:translateX(3px)}
+.ch-card:nth-child(1){animation-delay:.04s}.ch-card:nth-child(2){animation-delay:.08s}.ch-card:nth-child(3){animation-delay:.12s}.ch-card:nth-child(4){animation-delay:.16s}.ch-card:nth-child(5){animation-delay:.20s}.ch-card:nth-child(6){animation-delay:.24s}.ch-card:nth-child(7){animation-delay:.28s}.ch-card:nth-child(8){animation-delay:.32s}.ch-card:nth-child(9){animation-delay:.36s}.ch-card:nth-child(10){animation-delay:.40s}
+.ch-card.r1{border-color:rgba(255,215,0,.25);background:rgba(255,215,0,.02)}
+.ch-card.r2{border-color:rgba(192,192,200,.2)}.ch-card.r3{border-color:rgba(205,127,50,.2)}
+.ch-rank{font-family:'Space Mono',monospace;font-size:20px;font-weight:700;text-align:center}
+.ch-card.r1 .ch-rank{color:var(--gold);text-shadow:0 0 14px rgba(255,215,0,.5)}
+.ch-card.r2 .ch-rank{color:var(--silver)}.ch-card.r3 .ch-rank{color:var(--bronze)}
+.ch-medal{font-size:26px}
+.ch-avatar{width:56px;height:56px;border-radius:50%;object-fit:cover;background:var(--surface2);border:2px solid var(--border);flex-shrink:0}
+.ch-avatar-ph{width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,var(--yt),var(--accent2));display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0}
+.ch-info{min-width:0}
+.ch-name{font-weight:700;font-size:15px;margin-bottom:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ch-meta{font-size:12px;color:var(--text-dim);margin-bottom:6px}
+.ch-tags{display:flex;gap:5px;flex-wrap:wrap}
+.ch-badge{font-family:'Space Mono',monospace;font-size:9px;padding:2px 7px;border-radius:6px;background:rgba(255,0,0,.08);border:1px solid rgba(255,0,0,.15);color:var(--yt2)}
+.ch-stats{flex-shrink:0;display:flex;flex-direction:column;align-items:flex-end;gap:5px;min-width:100px}
+.ch-views{font-family:'Space Mono',monospace;font-size:14px;font-weight:700;color:var(--text)}
+.ch-views-label{font-family:'Space Mono',monospace;font-size:9px;color:var(--text-dim)}
+.ch-video-count{font-size:11px;color:var(--accent3);font-family:'Space Mono',monospace}
+.ch-heat{display:flex;align-items:center;gap:4px;font-family:'Space Mono',monospace;font-size:10px;padding:2px 8px;border-radius:8px;background:rgba(255,0,0,.1);border:1px solid rgba(255,0,0,.2);color:var(--yt2)}
+
+@media(max-width:768px){
+  .view-bar{padding:0 12px}
+  .view-tab{padding:10px 16px;font-size:13px}
+  .ch-card{grid-template-columns:40px 48px 1fr}
+  .ch-stats{display:none}
+  .ch-avatar{width:48px;height:48px}
+  .ch-avatar-ph{width:48px;height:48px;font-size:18px}
+}
 .skel{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:12px 16px;display:grid;grid-template-columns:52px 160px 1fr 90px;gap:14px;align-items:center;margin-bottom:10px}
 .sk{background:var(--border);border-radius:6px;animation:shim 1.5s infinite}
 @keyframes shim{0%,100%{opacity:.3}50%{opacity:.7}}
@@ -217,6 +255,15 @@ header{position:sticky;top:0;z-index:200;background:rgba(8,8,16,.92);backdrop-fi
   </div>
 </div>
 
+<!-- VIEW MODE -->
+<div class="view-bar">
+  <div class="view-tabs">
+    <button class="view-tab active" id="vtab-video" onclick="setViewMode('video')">▶ 영상 순위</button>
+    <button class="view-tab" id="vtab-channel" onclick="setViewMode('channel')">🔥 HOT 채널</button>
+    <button class="view-tab" id="vtab-subs" onclick="setViewMode('subs')">👑 구독자 순위</button>
+  </div>
+</div>
+
 <!-- 국가 선택 -->
 <div class="country-bar">
   <span class="country-bar-label">🌍 국가</span>
@@ -255,11 +302,107 @@ header{position:sticky;top:0;z-index:200;background:rgba(8,8,16,.92);backdrop-fi
 <!-- 영상 목록 -->
 <div class="video-section">
   <div class="video-list" id="videoList"></div>
+  <div class="ch-list" id="chList" style="display:none"></div>
+  <div class="ch-list" id="subsList" style="display:none"></div>
 </div>
 
 <div class="toast" id="toast"></div>
 
 <script>
+let viewMode = 'video';
+
+function setViewMode(mode) {
+  viewMode = mode;
+  document.querySelectorAll('.view-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('vtab-' + mode).classList.add('active');
+  document.getElementById('videoList').style.display = 'none';
+  document.getElementById('chList').style.display = 'none';
+  document.getElementById('subsList').style.display = 'none';
+  if (mode === 'video') {
+    document.getElementById('videoList').style.display = '';
+    fetchVideos();
+  } else if (mode === 'channel') {
+    document.getElementById('chList').style.display = '';
+    fetchChannels();
+  } else if (mode === 'subs') {
+    document.getElementById('subsList').style.display = '';
+    fetchSubscribers();
+  }
+}
+
+async function fetchChannels() {
+  const ckey = 'ch_' + activeCountry.code + '_' + activeCat.id;
+  if (cache[ckey]) { renderChannels(cache[ckey]); return; }
+  showChSkel();
+  document.getElementById('refreshBtn').classList.add('loading');
+  document.getElementById('statusBar').classList.add('on');
+  document.getElementById('statusTxt').textContent = `📺 ${activeCountry.flag} 채널 순위 분석 중...`;
+  try {
+    const res = await fetch(`/api/youtube?region=${activeCountry.code}&categoryId=${activeCat.id}`);
+    if (!res.ok) throw new Error('API Error');
+    const data = await res.json();
+    if (!data.items || !data.items.length) throw new Error('No data');
+    const chMap = {};
+    data.items.forEach(item => {
+      const s = item.snippet, st = item.statistics || {};
+      const cid = s.channelId;
+      const views = parseInt(st.viewCount || 0);
+      const likes = parseInt(st.likeCount || 0);
+      if (!chMap[cid]) chMap[cid] = {id:cid, name:s.channelTitle, thumb:s.thumbnails?.default?.url||'', totalViews:0, totalLikes:0, videoCount:0};
+      chMap[cid].totalViews += views;
+      chMap[cid].totalLikes += likes;
+      chMap[cid].videoCount++;
+    });
+    const channels = Object.values(chMap).sort((a,b) => b.totalViews - a.totalViews).slice(0, 15);
+    cache[ckey] = channels;
+    renderChannels(channels);
+  } catch(e) {
+    document.getElementById('chList').innerHTML = `<div class="err-box"><div style="font-size:32px;margin-bottom:8px">⚠️</div><p>채널 데이터를 불러오지 못했어요.</p></div>`;
+  } finally {
+    document.getElementById('refreshBtn').classList.remove('loading');
+    document.getElementById('statusBar').classList.remove('on');
+  }
+}
+
+function renderChannels(channels) {
+  const medals = ['🥇','🥈','🥉'];
+  const now = new Date().toLocaleTimeString('ko-KR',{hour:'2-digit',minute:'2-digit'});
+  document.getElementById('chList').innerHTML = channels.map((ch,i) => `
+    <div class="ch-card r${i<3?i+1:''}" onclick="window.open('https://youtube.com/channel/${ch.id}','_blank')">
+      <div class="ch-rank">${i<3?`<span class="ch-medal">${medals[i]}</span>`:`#${i+1}`}</div>
+      ${ch.thumb ? `<img class="ch-avatar" src="${ch.thumb}" onerror="this.style.display='none'" loading="lazy">` : `<div class="ch-avatar-ph">📺</div>`}
+      <div class="ch-info">
+        <div class="ch-name">${esc(ch.name)}</div>
+        <div class="ch-meta">급상승 영상 ${ch.videoCount}개 · 👍 ${fmt(ch.totalLikes)}</div>
+        <div class="ch-tags">
+          ${ch.videoCount >= 3 ? '<span class="ch-badge">🔥 HOT</span>' : ''}
+          <span class="ch-badge">급상승</span>
+        </div>
+      </div>
+      <div class="ch-stats">
+        <div><div class="ch-views">${fmt(ch.totalViews)}</div><div class="ch-views-label">TOTAL VIEWS</div></div>
+        <div class="ch-video-count">📹 ${ch.videoCount}개 영상</div>
+        <div class="ch-heat">🔥 평균 ${fmt(Math.round(ch.totalViews/ch.videoCount))}/편</div>
+      </div>
+    </div>`).join('');
+  document.getElementById('sectionTitle').textContent = `${activeCountry.flag} ${activeCountry.name} 채널 순위`;
+  document.getElementById('updateBadge').textContent = now + ' 기준';
+  document.getElementById('statVideos').textContent = channels.length;
+  document.getElementById('statViews').textContent = fmt(channels.reduce((s,c)=>s+c.totalViews,0));
+  document.getElementById('statRegion').textContent = activeCountry.flag + ' ' + activeCountry.name;
+  document.getElementById('statTime').textContent = now;
+}
+
+function showChSkel() {
+  document.getElementById('chList').innerHTML = Array(8).fill(0).map(()=>`
+    <div class="skel" style="grid-template-columns:56px 64px 1fr 100px">
+      <div class="sk" style="height:24px;width:36px;margin:auto"></div>
+      <div class="sk" style="height:56px;border-radius:50%"></div>
+      <div><div class="sk" style="height:15px;width:60%;margin-bottom:8px"></div><div class="sk" style="height:11px;width:80%"></div></div>
+      <div style="display:flex;flex-direction:column;align-items:flex-end;gap:6px"><div class="sk" style="height:18px;width:70px"></div><div class="sk" style="height:12px;width:50px"></div></div>
+    </div>`).join('');
+}
+
 const COUNTRIES = [
   {code:'KR', flag:'🇰🇷', name:'한국'},
   {code:'US', flag:'🇺🇸', name:'미국'},
@@ -422,10 +565,95 @@ function showSkel() {
     </div>`).join('');
 }
 
+async function fetchSubscribers() {
+  const ckey = 'subs_' + activeCountry.code + '_' + activeCat.id;
+  if (cache[ckey]) { renderSubscribers(cache[ckey]); return; }
+  document.getElementById('subsList').innerHTML = Array(8).fill(0).map(()=>`
+    <div class="skel" style="grid-template-columns:56px 64px 1fr 100px">
+      <div class="sk" style="height:24px;width:36px;margin:auto"></div>
+      <div class="sk" style="height:56px;border-radius:50%"></div>
+      <div><div class="sk" style="height:15px;width:60%;margin-bottom:8px"></div><div class="sk" style="height:11px;width:80%"></div></div>
+      <div style="display:flex;flex-direction:column;align-items:flex-end;gap:6px"><div class="sk" style="height:18px;width:70px"></div><div class="sk" style="height:12px;width:50px"></div></div>
+    </div>`).join('');
+  document.getElementById('refreshBtn').classList.add('loading');
+  document.getElementById('statusBar').classList.add('on');
+  document.getElementById('statusTxt').textContent = `👑 ${activeCountry.flag} 구독자 순위 분석 중...`;
+  try {
+    // 급상승 영상에서 채널 ID 수집
+    const res = await fetch(`/api/youtube?region=${activeCountry.code}&categoryId=${activeCat.id}`);
+    if (!res.ok) throw new Error('API Error');
+    const data = await res.json();
+    if (!data.items || !data.items.length) throw new Error('No data');
+
+    // 중복 없이 채널 ID 수집
+    const channelIds = [...new Set(data.items.map(i => i.snippet.channelId))];
+
+    // 채널 상세 정보 (구독자 수 포함) 가져오기
+    const chRes = await fetch(`/api/youtube?channelIds=${channelIds.join(',')}`);
+    if (!chRes.ok) throw new Error('Channel API Error');
+    const chData = await chRes.json();
+
+    const channels = (chData.items || [])
+      .map(ch => ({
+        id: ch.id,
+        name: ch.snippet?.title || '',
+        thumb: ch.snippet?.thumbnails?.default?.url || '',
+        desc: ch.snippet?.description || '',
+        subs: parseInt(ch.statistics?.subscriberCount || 0),
+        totalViews: parseInt(ch.statistics?.viewCount || 0),
+        videoCount: parseInt(ch.statistics?.videoCount || 0),
+      }))
+      .sort((a, b) => b.subs - a.subs);
+
+    cache[ckey] = channels;
+    renderSubscribers(channels);
+  } catch(e) {
+    document.getElementById('subsList').innerHTML = `<div class="err-box"><div style="font-size:32px;margin-bottom:8px">⚠️</div><p>구독자 데이터를 불러오지 못했어요.</p></div>`;
+  } finally {
+    document.getElementById('refreshBtn').classList.remove('loading');
+    document.getElementById('statusBar').classList.remove('on');
+  }
+}
+
+function renderSubscribers(channels) {
+  const medals = ['🥇','🥈','🥉'];
+  const now = new Date().toLocaleTimeString('ko-KR',{hour:'2-digit',minute:'2-digit'});
+  document.getElementById('subsList').innerHTML = channels.map((ch,i) => `
+    <div class="ch-card r${i<3?i+1:''}" onclick="window.open('https://youtube.com/channel/${ch.id}','_blank')">
+      <div class="ch-rank">${i<3?`<span class="ch-medal">${medals[i]}</span>`:`#${i+1}`}</div>
+      ${ch.thumb ? `<img class="ch-avatar" src="${ch.thumb}" onerror="this.style.display='none'" loading="lazy">` : `<div class="ch-avatar-ph">📺</div>`}
+      <div class="ch-info">
+        <div class="ch-name">${esc(ch.name)}</div>
+        <div class="ch-meta">총 조회수 ${fmt(ch.totalViews)} · 영상 ${fmt(ch.videoCount)}개</div>
+        <div class="ch-tags">
+          ${ch.subs >= 1e7 ? '<span class="ch-badge">👑 1000만+</span>' : ''}
+          ${ch.subs >= 1e6 && ch.subs < 1e7 ? '<span class="ch-badge">💎 100만+</span>' : ''}
+          ${ch.subs >= 1e5 && ch.subs < 1e6 ? '<span class="ch-badge">🔥 10만+</span>' : ''}
+          <span class="ch-badge">급상승</span>
+        </div>
+      </div>
+      <div class="ch-stats">
+        <div><div class="ch-views" style="color:var(--accent2)">${fmt(ch.subs)}</div><div class="ch-views-label">구독자</div></div>
+        <div class="ch-video-count">📹 ${fmt(ch.videoCount)}개 영상</div>
+        <div class="ch-heat">👁 ${fmt(ch.totalViews)} 총뷰</div>
+      </div>
+    </div>`).join('');
+  document.getElementById('sectionTitle').textContent = `${activeCountry.flag} ${activeCountry.name} 구독자 순위`;
+  document.getElementById('updateBadge').textContent = now + ' 기준';
+  document.getElementById('statVideos').textContent = channels.length;
+  document.getElementById('statViews').textContent = fmt(channels.reduce((s,c)=>s+c.subs,0));
+  document.getElementById('statRegion').textContent = activeCountry.flag + ' ' + activeCountry.name;
+  document.getElementById('statTime').textContent = now;
+}
+
 function doRefresh() {
-  const ckey = activeCountry.code + '_' + activeCat.id;
-  delete cache[ckey];
-  fetchVideos();
+  const vkey = activeCountry.code + '_' + activeCat.id;
+  delete cache[vkey];
+  delete cache['ch_' + vkey];
+  delete cache['subs_' + vkey];
+  if (viewMode === 'video') fetchVideos();
+  else if (viewMode === 'channel') fetchChannels();
+  else fetchSubscribers();
 }
 
 function parseDur(iso) {
