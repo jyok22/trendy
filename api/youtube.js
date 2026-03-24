@@ -5,7 +5,7 @@ export default async function handler(req, res) {
 
   if (req.method === 'OPTIONS') return res.status(200).end();
 
-  const { region = 'KR', categoryId = '0', channelIds } = req.query;
+  const { region = 'KR', categoryId = '0', channelIds, pageToken } = req.query;
   const apiKey = process.env.YOUTUBE_API_KEY;
 
   if (!apiKey) {
@@ -16,12 +16,13 @@ export default async function handler(req, res) {
     let url;
 
     if (channelIds) {
-      // 채널 구독자 수 조회 (최대 50개)
+      // 채널 구독자 수 조회
       url = `https://www.googleapis.com/youtube/v3/channels?part=snippet,statistics&id=${channelIds}&maxResults=50&key=${apiKey}`;
     } else {
-      // 급상승 영상 조회 (최대 50개로 늘려서 채널 다양성 확보)
+      // 급상승 영상 조회
       url = `https://www.googleapis.com/youtube/v3/videos?part=snippet,statistics,contentDetails&chart=mostPopular&regionCode=${region}&maxResults=50&key=${apiKey}`;
       if (categoryId && categoryId !== '0') url += `&videoCategoryId=${categoryId}`;
+      if (pageToken) url += `&pageToken=${pageToken}`;
     }
 
     const response = await fetch(url);
