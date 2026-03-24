@@ -441,7 +441,14 @@ COUNTRIES.forEach(c => {
     activeCountry = c;
     document.querySelectorAll('.country-tab').forEach(x=>x.classList.remove('active'));
     b.classList.add('active');
-    fetchVideos();
+    // 캐시 초기화 후 현재 탭에 맞게 호출
+    const vkey = c.code + '_' + activeCat.id;
+    delete cache[vkey];
+    delete cache['ch_' + vkey];
+    delete cache['subs_' + vkey];
+    if (viewMode === 'video') fetchVideos();
+    else if (viewMode === 'channel') fetchChannels();
+    else fetchSubscribers();
   };
   countryTabsEl.appendChild(b);
 });
@@ -457,7 +464,13 @@ CATEGORIES.forEach(c => {
     activeCat = c;
     document.querySelectorAll('.cat-tab').forEach(x=>x.classList.remove('active'));
     b.classList.add('active');
-    fetchVideos();
+    const vkey = activeCountry.code + '_' + c.id;
+    delete cache[vkey];
+    delete cache['ch_' + vkey];
+    delete cache['subs_' + vkey];
+    if (viewMode === 'video') fetchVideos();
+    else if (viewMode === 'channel') fetchChannels();
+    else fetchSubscribers();
   };
   catTabsEl.appendChild(b);
 });
