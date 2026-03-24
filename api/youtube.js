@@ -16,11 +16,11 @@ export default async function handler(req, res) {
     let url;
 
     if (channelIds) {
-      // 채널 구독자 수 조회
-      url = `https://www.googleapis.com/youtube/v3/channels?part=snippet,statistics&id=${channelIds}&key=${apiKey}`;
+      // 채널 구독자 수 조회 (최대 50개)
+      url = `https://www.googleapis.com/youtube/v3/channels?part=snippet,statistics&id=${channelIds}&maxResults=50&key=${apiKey}`;
     } else {
-      // 급상승 영상 조회
-      url = `https://www.googleapis.com/youtube/v3/videos?part=snippet,statistics,contentDetails&chart=mostPopular&regionCode=${region}&maxResults=20&key=${apiKey}`;
+      // 급상승 영상 조회 (최대 50개로 늘려서 채널 다양성 확보)
+      url = `https://www.googleapis.com/youtube/v3/videos?part=snippet,statistics,contentDetails&chart=mostPopular&regionCode=${region}&maxResults=50&key=${apiKey}`;
       if (categoryId && categoryId !== '0') url += `&videoCategoryId=${categoryId}`;
     }
 
