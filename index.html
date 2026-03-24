@@ -336,9 +336,9 @@ async function fetchChannels() {
   showChSkel();
   document.getElementById('refreshBtn').classList.add('loading');
   document.getElementById('statusBar').classList.add('on');
-  document.getElementById('statusTxt').textContent = `📺 ${activeCountry.flag} 채널 순위 분석 중...`;
+  document.getElementById('statusTxt').textContent = `📺 ${activeCountry.flag} ${activeCountry.name} 채널 순위 분석 중...`;
   try {
-    const res = await fetch(`/api/youtube?region=${activeCountry.code}&categoryId=${activeCat.id}`);
+    const res = await fetch(`/api/youtube?region=${activeCountry.code}&categoryId=${activeCat.id}&t=${Date.now()}`);
     if (!res.ok) throw new Error('API Error');
     const data = await res.json();
     if (!data.items || !data.items.length) throw new Error('No data');
@@ -590,10 +590,10 @@ async function fetchSubscribers() {
     </div>`).join('');
   document.getElementById('refreshBtn').classList.add('loading');
   document.getElementById('statusBar').classList.add('on');
-  document.getElementById('statusTxt').textContent = `👑 ${activeCountry.flag} 구독자 순위 분석 중...`;
+  document.getElementById('statusTxt').textContent = `👑 ${activeCountry.flag} ${activeCountry.name} 구독자 순위 분석 중...`;
   try {
-    // 급상승 영상에서 채널 ID 수집
-    const res = await fetch(`/api/youtube?region=${activeCountry.code}&categoryId=${activeCat.id}`);
+    // 해당 국가 급상승 영상 새로 호출 (캐시 무시)
+    const res = await fetch(`/api/youtube?region=${activeCountry.code}&categoryId=${activeCat.id}&t=${Date.now()}`);
     if (!res.ok) throw new Error('API Error');
     const data = await res.json();
     if (!data.items || !data.items.length) throw new Error('No data');
@@ -602,7 +602,7 @@ async function fetchSubscribers() {
     const channelIds = [...new Set(data.items.map(i => i.snippet.channelId))];
 
     // 채널 상세 정보 (구독자 수 포함) 가져오기
-    const chRes = await fetch(`/api/youtube?channelIds=${channelIds.join(',')}`);
+    const chRes = await fetch(`/api/youtube?channelIds=${channelIds.join(',')}&t=${Date.now()}`);
     if (!chRes.ok) throw new Error('Channel API Error');
     const chData = await chRes.json();
 
@@ -611,7 +611,7 @@ async function fetchSubscribers() {
         id: ch.id,
         name: ch.snippet?.title || '',
         thumb: ch.snippet?.thumbnails?.default?.url || '',
-        desc: ch.snippet?.description || '',
+        country: ch.snippet?.country || '',
         subs: parseInt(ch.statistics?.subscriberCount || 0),
         totalViews: parseInt(ch.statistics?.viewCount || 0),
         videoCount: parseInt(ch.statistics?.videoCount || 0),
@@ -621,7 +621,7 @@ async function fetchSubscribers() {
     cache[ckey] = channels;
     renderSubscribers(channels);
   } catch(e) {
-    document.getElementById('subsList').innerHTML = `<div class="err-box"><div style="font-size:32px;margin-bottom:8px">⚠️</div><p>구독자 데이터를 불러오지 못했어요.</p></div>`;
+    document.getElementById('subsList').innerHTML = `<div class="err-box"><div style="font-size:32px;margin-bottom:8px">⚠️</div><p>구독자 데이터를 불러오지 못했어요.<br><small>${e.message}</small></p></div>`;
   } finally {
     document.getElementById('refreshBtn').classList.remove('loading');
     document.getElementById('statusBar').classList.remove('on');
@@ -631,12 +631,15 @@ async function fetchSubscribers() {
 function renderSubscribers(channels) {
   const medals = ['🥇','🥈','🥉'];
   const now = new Date().toLocaleTimeString('ko-KR',{hour:'2-digit',minute:'2-digit'});
-  document.getElementById('subsList').innerHTML = channels.map((ch,i) => `
+  const countryFlagMap = {KR:'🇰🇷',US:'🇺🇸',JP:'🇯🇵',GB:'🇬🇧',IN:'🇮🇳',BR:'🇧🇷',DE:'🇩🇪',FR:'🇫🇷',AU:'🇦🇺',CA:'🇨🇦',MX:'🇲🇽',TW:'🇹🇼',TH:'🇹🇭',ID:'🇮🇩',PH:'🇵🇭'};
+  document.getElementById('subsList').innerHTML = channels.map((ch,i) => {
+    const flag = countryFlagMap[ch.country] || '';
+    return `
     <div class="ch-card r${i<3?i+1:''}" onclick="window.open('https://youtube.com/channel/${ch.id}','_blank')">
       <div class="ch-rank">${i<3?`<span class="ch-medal">${medals[i]}</span>`:`#${i+1}`}</div>
       ${ch.thumb ? `<img class="ch-avatar" src="${ch.thumb}" onerror="this.style.display='none'" loading="lazy">` : `<div class="ch-avatar-ph">📺</div>`}
       <div class="ch-info">
-        <div class="ch-name">${esc(ch.name)}</div>
+        <div class="ch-name">${flag ? flag+' ' : ''}${esc(ch.name)}</div>
         <div class="ch-meta">총 조회수 ${fmt(ch.totalViews)} · 영상 ${fmt(ch.videoCount)}개</div>
         <div class="ch-tags">
           ${ch.subs >= 1e7 ? '<span class="ch-badge">👑 1000만+</span>' : ''}
@@ -650,7 +653,8 @@ function renderSubscribers(channels) {
         <div class="ch-video-count">📹 ${fmt(ch.videoCount)}개 영상</div>
         <div class="ch-heat">👁 ${fmt(ch.totalViews)} 총뷰</div>
       </div>
-    </div>`).join('');
+    </div>`;
+  }).join('');
   document.getElementById('sectionTitle').textContent = `${activeCountry.flag} ${activeCountry.name} 구독자 순위`;
   document.getElementById('updateBadge').textContent = now + ' 기준';
   document.getElementById('statVideos').textContent = channels.length;
